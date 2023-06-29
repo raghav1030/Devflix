@@ -1,0 +1,25 @@
+/* write your css here */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+    overflow-x: hidden;
+}
+
+.instruction-button-shadow{
+    box-shadow: inset 0px -1px 0px rgba(255, 255, 255, 0.18);
+}
+
+.hero-video-shadow{
+    box-shadow: 20px 20px 0px 0px #F5F5F5;
+    
+}
+
+.codeBlock-gradient{
+    box-shadow: 123.77deg, #8A2BE2 -6.46%, #FFA500 59.04%, #F8F8FF 124.53%;
+}
+
+.homePage_bg{
+    background-image: url('./assets/Images/bghome.svg');
+}
