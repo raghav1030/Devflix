@@ -94,7 +94,6 @@ async function submitForm (data){
 
 
     if(editCourse ){
-console.log(data)
         
         if(isFormUpdated()){
             const currentValue = getValues()
@@ -153,21 +152,23 @@ console.log(data)
     }
     
         const formData = new FormData()
-        formData.append('courseName' , data.courseName)
-        formData.append('courseDescription' , data.description)
-        formData.append('price' , data.price)
-        formData.append('whatYouWillLearn' , data.whatYouWillLearn)
-        formData.append('category' , data.category)
-        formData.append('thumbnail' , data.thumbnail)
-        formData.append('tag' , JSON.stringify(data.tag))
-        formData.append('instructions' , JSON.stringify(data.instructions))
-        formData.append('status' , COURSE_STATUS.DRAFT)
+        formData.set('courseName' , data.courseName)
+        formData.set('courseDescription' , data.description)
+        formData.set('price' , data.price)
+        formData.set('whatYouWillLearn' , data.whatYouWillLearn)
+        formData.set('category' , data.category)
+        formData.set('thumbnail' , data.thumbnail)
+        formData.set('tag' , JSON.stringify(data.tag))
+        formData.set('instructions' , JSON.stringify(data.instructions))
+        formData.set('status' , COURSE_STATUS.DRAFT)
 
+        console.log(formData)
+
+        console.log(data.courseName)
         setLoading(true)
 
 
         try {
-            console.log(formData)
             const result = await addCourseDetails(formData , token)
             if(result){
                 dispatch(setCourse(result))
@@ -323,7 +324,7 @@ return (
 
                 <IconBtn
                 text={editCourse ? "Next" : "Save Changes And Next"}
-                onClick={submitForm}
+                type={'submit'}
 
                 ></IconBtn>
 
