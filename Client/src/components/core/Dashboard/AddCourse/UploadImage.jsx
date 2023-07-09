@@ -1,37 +1,52 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-const UploadImage = ({register , setValue, name, label, placeholder, errors, watch  }) => {
+const UploadImage = ({register , setValue, getValues, name, label, placeholder, errors, watch  }) => {
 
     const [thumbnailPreview , setThumbnailPreview] = useState(null)
     const [thumbnail , setThumbnail] = useState(null)
 
-    function handleChange(e){
+    async function handleChange(e){
         const file = e.target.files[0]
+
 
         if(file){
             setThumbnail(file)
-            // setValue(name , file)
-            console.log(thumbnail)
             previewFile(file)
+
+            console.log(file)
+            console.log("watch(name)" , watch(name))
+
 
         }
     }
 
     function previewFile(file){
-        const reader = new FileReader()
+
+
+        const reader = new FileReader() 
         reader.readAsDataURL(file)
         reader.onloadend = () => {
-            console.log("reader",reader)
             setThumbnailPreview(reader.result)
         }
     }
+    
+    
+    
+    useEffect(()=>{
+        register(name, {
+            required : true
+        })
+    },[])
 
-    useState(()=>{
+
+
+    useEffect(()=>{
         if(thumbnail){
+            setValue(name, thumbnail)
             previewFile(thumbnail)
         }
+        console.log('watch(tag) from useEffect' , watch(name))
     } , [thumbnail])
-
     
 
 
@@ -48,7 +63,7 @@ return (
 
         <input type="file" 
         placeholder={placeholder}
-        {...register(name, {required : true})}
+        // {...register(name, {required : true})}
         // onKeyDown={handleKeyDown}
         onChange={handleChange}
         className='text-richblack-900 '

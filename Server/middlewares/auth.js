@@ -66,7 +66,7 @@ exports.auth = async (req, res, next) => {
         //verify the token
         try{
             const decode =  jwt.verify(token, process.env.JWT_SECRET);
-            console.log(decode);
+            console.log("Details from token Authorisation",decode);
             req.user = decode;
         }
         catch(err) {
@@ -113,6 +113,8 @@ exports.isInstructor = async (req, res, next) => {
                 message : "This is a Protected Route for Instructor only."
             })
         }
+
+        console.log("Instructor Verified")
 
         next()
 

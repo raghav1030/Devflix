@@ -22,7 +22,8 @@ const CourseInformationForm = () => {
         formState:{errors}
     } = useForm({
         defaultValues : {
-            tag : []
+            tag : [],
+            // thumbnail : {},
         }
     })
 
@@ -78,7 +79,7 @@ const CourseInformationForm = () => {
             currentValue.whatYouWillLearn !== course.whatYouWillLearn ||
             currentValue.category !== course.category._id ||
             currentValue.instructions.toString() !== course.instructions.toString() ||
-            currentValue.thumbnail !== course.thumbnail ||
+            currentValue.thumbnail[0] !== course.thumbnail ||
             currentValue.tag.toString() !== course.tag.toString() ){
             return true
         }
@@ -88,7 +89,7 @@ const CourseInformationForm = () => {
 
     }
 
-async function submitForm (data){
+    const submitForm = async(data)=>{
 
     console.log(data)
 
@@ -98,6 +99,9 @@ async function submitForm (data){
         if(isFormUpdated()){
             const currentValue = getValues()
             const formData = new FormData()
+
+
+
             formData.append('courseId' , course._id)
 
             if(currentValue.courseName !== course.courseName){
@@ -118,7 +122,7 @@ async function submitForm (data){
             if(currentValue.category !== course.category._id){
                 formData.append('category' , data.category)
             }
-            if(currentValue.thumbnail !== course.thumbnail){
+            if(currentValue.thumbnail[0] !== course.thumbnail){
                 formData.append('thumbnail' , data.thumbnail)
             }
             if(currentValue.tag.toString() !== course.tag.toString()){
@@ -151,37 +155,38 @@ async function submitForm (data){
         return
     }
     
-        const formData = new FormData()
-        formData.set('courseName' , data.courseName)
-        formData.set('courseDescription' , data.description)
-        formData.set('price' , data.price)
-        formData.set('whatYouWillLearn' , data.whatYouWillLearn)
-        formData.set('category' , data.category)
-        formData.set('thumbnail' , data.thumbnail)
-        formData.set('tag' , JSON.stringify(data.tag))
-        formData.set('instructions' , JSON.stringify(data.instructions))
-        formData.set('status' , COURSE_STATUS.DRAFT)
+    const formData = new FormData()
+    console.log(data.thumbnail)
+    formData.append('courseName' , data.courseName)
+    formData.append('courseDescription' , data.description)
+    formData.append('price' , data.price)
+    formData.append('whatYouWillLearn' , data.whatYouWillLearn)
+    formData.append('category' , data.category)
+    formData.append('thumbnail' , data.thumbnail)
+    formData.append('tag' , JSON.stringify(data.tag))
+    formData.append('instructions' , JSON.stringify(data.instructions))
+    formData.append('status' , COURSE_STATUS.DRAFT)
 
-        console.log(formData)
+    for (const [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+              }
+    setLoading(true)
 
-        console.log(data.courseName)
-        setLoading(true)
-
-
-        try {
-            const result = await addCourseDetails(formData , token)
-            if(result){
-                dispatch(setCourse(result))
-                dispatch(setStep(2))
-            }
-            
-        } catch (e) {
-            console.error(e)
+    try {
+        const result = await addCourseDetails(formData , token)
+        console.log(result)
+        if(result){
+            dispatch(setCourse(result))
+            dispatch(setStep(2))
         }
-        setLoading(false)
-
-
+        
+    } catch (e) {
+        console.error(e)
     }
+    setLoading(false)
+}
+
+
     
 
 return (
@@ -292,7 +297,7 @@ return (
             watch={watch}
             />
 
-            <UploadImage label="Thumbnail"
+            <UploadImage label="Thumbnail"  
             name='thumbnail'
             placeholder='Upload Thumbnail'
             errors={errors.thumbnail}
@@ -303,7 +308,7 @@ return (
 
             <RequirementField 
             label="Requirement/Instruction"
-            name='instruction'
+            name='instructions'
             placeholder='Enter The pre-requisites for the course'
             errors={errors.tag}
             setValue={setValue}

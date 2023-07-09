@@ -43,7 +43,8 @@ export default function ChangeProfilePicture() {
       setLoading(true)
       const formData = new FormData()
       formData.append("displayPicture", imageFile)
-      // console.log("formdata", formData)
+      console.log("formdata", formData)
+      console.log("imageFile", imageFile)
       dispatch(updateDisplayPicture(token, formData))
       setLoading(false)
 

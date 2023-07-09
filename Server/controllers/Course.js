@@ -5,10 +5,15 @@ const {uploadImageToCloudinary} = require('../utils/imageUploader')
 const { default: mongoose } = require('mongoose')
 
 exports.createCourse = async(req, res) =>{
+    console.log(req.body)
     try {
         const{ courseName , courseDescription, whatYouWillLearn,  price, category, tag, instructions } = req.body
         let {status} = req.body
         const {thumbnail} = req.files
+        
+        console.log(courseName , courseDescription, whatYouWillLearn,  price, category, tag, instructions , status , thumbnail )
+        console.log()
+
 
         if(!courseName || !courseDescription || !whatYouWillLearn || !price || !category || !tag || !thumbnail ){
             return res.status(400).json({   
@@ -20,7 +25,7 @@ exports.createCourse = async(req, res) =>{
         const userId = req.user.id
         const instructorDetails = await User.findById(userId, {accountType : "Instructor"})
 
-        // console.log("instructorDetails" , instructorDetails)
+        console.log("instructorDetails" , instructorDetails)
 
 
         if(!instructorDetails){
@@ -65,9 +70,15 @@ exports.createCourse = async(req, res) =>{
 
         console.log("new Course" , newCourse)
 
-        const updateUser = await User.findByIdAndUpdate({_id: instructorDetails._id}, {$push: {courses : newCourse._id}}, {new:true})
+        
+            const updateUser = await User.findByIdAndUpdate({_id: instructorDetails._id}, {$push: {courses : newCourse._id}}, {new:true})
+        
 
-        const updateCategory = await Category.findByIdAndUpdate({_id: categoryDetails._id}, {$push: {course : newCourse._id}}, {new:true})
+        console.log("updateUser" , updateUser)
+
+            const updateCategory = await Category.findByIdAndUpdate({_id: categoryDetails._id}, {$push: {course : newCourse._id}}, {new:true})
+            
+        console.log("updateCategory" , updateCategory)        
 
         return res.status(200).json({
             success : true,
@@ -84,6 +95,7 @@ exports.createCourse = async(req, res) =>{
         })
     }
 }
+
 
 
 

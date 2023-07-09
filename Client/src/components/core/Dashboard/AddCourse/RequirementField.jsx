@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 const RequirementField = ({register , setValue, name, label, placeholder, errors  }) => {
 
     const [requirement, setRequirement] = useState('')
-    const [requirementList, setRequirementList] = useState(['ram ram jee'])
+    const [requirementList, setRequirementList] = useState([])
 
 
     const addRequirement = ()=>{
