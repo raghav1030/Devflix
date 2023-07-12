@@ -5,6 +5,7 @@ step : 1,
 course: null,
 editCourse: false,
 paymentLoading: false,
+allCourses: [],
 }
 
 const courseSlice = createSlice({
@@ -28,6 +29,9 @@ reducers: {
     state.course = null
     state.editCourse = false
     },
+    setAllCourses: (state, action) => {
+        state.allCourses.push(action.payload)
+    }
 },
 })
 
@@ -37,6 +41,7 @@ setCourse,
 setEditCourse,
 setPaymentLoading,
 resetCourseState,
+setAllCourses
 } = courseSlice.actions
 
 export default courseSlice.reducer  

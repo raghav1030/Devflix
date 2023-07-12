@@ -2,8 +2,8 @@ import React from 'react'
 import RenderSteps from './RenderSteps'
 import { useSelector } from 'react-redux'
 import PublishCourse from './PublishCourse'
-import CourseBuilderForm from './CourseBuilderForm'
-import CourseInformationForm from './CourseInformationForm'
+import CourseBuilderForm from './CourseBuilder/CourseBuilderForm'
+import CourseInformationForm from './CourseInformation/CourseInformationForm'
 
 const AddCourseIndex = () => {
 
@@ -19,7 +19,7 @@ return (
 
         <div>
             {step === 1 && <CourseInformationForm/>}
-            {step === 1 && <CourseBuilderForm/>}
+            {step === 2 && <CourseBuilderForm/>}
             {step === 3 && <PublishCourse/>}
         </div>
 

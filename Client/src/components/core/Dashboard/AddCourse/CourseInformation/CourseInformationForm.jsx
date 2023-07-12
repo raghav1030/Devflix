@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import {useForm} from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import {fetchCourseCategories, editCourseDetails, addCourseDetails } from '../../../../services/operations/courseOperations'
+import {fetchCourseCategories, editCourseDetails, addCourseDetails } from '../../../../../services/operations/courseOperations'
 import ChipInput from './ChipInput'
 import UploadImage from './UploadImage'
 import RequirementField from './RequirementField'
-import { setCourse, setStep } from '../../../../redux/slices/courseSlice'
-import IconBtn from '../../../common/IconBtn'
-import {COURSE_STATUS} from '../../../../utils/constants'
+import { setCourse, setStep , setEditCourse, setAllCourses } from '../../../../../redux/slices/courseSlice'
+import IconBtn from '../../../../common/IconBtn'
+import {COURSE_STATUS} from '../../../../../utils/constants'
 import { toast } from 'react-hot-toast'
 // import { current } from '@reduxjs/toolkit'
 
@@ -29,7 +29,7 @@ const CourseInformationForm = () => {
 
     const dispatch = useDispatch()
 
-    const {course , editCourse} = useSelector((state => state.course))
+    const {course , editCourse } = useSelector((state => state.course))
     const {token} = useSelector((state) => state.auth)
     const [loading ,setLoading ] = useState(false)
     const [courseCategories, setCourseCategories] = useState([])
@@ -137,7 +137,7 @@ const CourseInformationForm = () => {
             try {
                 const result = await editCourseDetails(formData , token)
                 if(result){
-                    dispatch(setCourse(result))
+                    dispatch(setCourse(result.course))
                     dispatch(setStep(2))
                 }
                 
@@ -163,8 +163,8 @@ const CourseInformationForm = () => {
     formData.append('whatYouWillLearn' , data.whatYouWillLearn)
     formData.append('category' , data.category)
     formData.append('thumbnail' , data.thumbnail)
-    formData.append('tag' , JSON.stringify(data.tag))
-    formData.append('instructions' , JSON.stringify(data.instructions))
+    formData.append('tag' , data.tag)
+    formData.append('instructions' , data.instructions)
     formData.append('status' , COURSE_STATUS.DRAFT)
 
     for (const [key, value] of formData.entries()) {
@@ -174,11 +174,13 @@ const CourseInformationForm = () => {
 
     try {
         const result = await addCourseDetails(formData , token)
-        console.log(result)
+        console.log( "Printing Result", result.course)
         if(result){
-            dispatch(setCourse(result))
+            dispatch(setCourse(result.course))
             dispatch(setStep(2))
+            // dispatch(setAllCourses(result.course))
         }
+        console.log( "Printing course", course)
         
     } catch (e) {
         console.error(e)
@@ -191,15 +193,18 @@ const CourseInformationForm = () => {
 
 return (
     <form 
-    onSubmit={handleSubmit(submitForm)} className ='rounded-md bg-richblack-800 border-richblack-700 p-6 space-y-8  ' >
-        
-            <label>
+    onSubmit={handleSubmit(submitForm)} 
+    className="space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6"
 
-                <p> Course Title <sup>*</sup> </p>
+    >
+        
+            <label >
+
+                <p className="text-sm text-richblack-5"> Course Title <sup className="text-pink-200">*</sup> </p>
                 <input type="text"
                 {...register('courseName', {required : true})}
                 placeholder='Enter Course Title '
-                className='w-full '
+                className="form-style w-full"
                 />
                 {
                     errors.courseName && <span>

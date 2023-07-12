@@ -1,7 +1,7 @@
 import React from 'react'
 import {AiFillCheckCircle} from 'react-icons/ai'
 import { useSelector } from 'react-redux'
-import  './AddCourse.css'
+
 const RenderSteps = () => {
 
     const steps = [
