@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose')
 const Category = require('../models/Category')
 const Course = require('../models/Course')
 
@@ -13,7 +14,9 @@ exports.createCategory = async (req, res) => {
             })
         }
 
-        const createCategory = await Category.create({name : name, description : description})
+        const updatedName = name.trim().split(" ").join('-').toLowerCase()
+
+        const createCategory = await Category.create({name : updatedName, description : description})
 
         return res.status(200).json({
             success : true, 
@@ -53,17 +56,35 @@ exports.categoryPageDetails = async (req, res) =>{
     try{
         const {categoryId} = req.body
 
+        // categoryId = new mongoose.Types.ObjectId(categoryId)
+        
 
-        const getCoursesForCategory = await Category.findById(categoryId).populate('course').exec() 
 
-        if(!getCoursesForCategory){
-            return res.status(404).json({
+        const selectedCategory = await Category.findById(categoryId).populate({
+            path: "course",
+            match: { status: "Published" },
+            populate: {
+              path: "instructor",
+          },
+          })
+          .exec()
+
+        if(!selectedCategory){
+            return res.status(402).json({
                 success : false,
                 message : "Courses not found for the selected category"
             })
         }
 
-        const differentCategory = await Category.find({_id : {$ne : categoryId}}).populate('course').exec()
+        
+        const differentCategory = await Category.find({_id : {$ne : categoryId}}).populate({
+            path: "course",
+            match: { status: "Published" },
+            populate: {
+              path: "instructor",
+          },
+          })
+          .exec()
 
         if(!differentCategory){
             return res.status(404).json({
@@ -74,20 +95,24 @@ exports.categoryPageDetails = async (req, res) =>{
 
         // const topSellingCourses = await Course.aggregate($project : {_id: 1, courseName : 1, num_users: {$size: "$studentsEnrolled"  }}, $sort : {num_users : -1}})
 
-        const topSellingCourses = await Course.aggregate([
-            {
-                $project: {
-                    _id: 1,
-                    courseName: 1,
-                    num_users: { $size: "$studentsEnrolled" }
-                }
-            },
-            {
-                $sort: { num_users: -1 }
-            }
-        ]);
+        const allCategories = await Category.find()
+        .populate({
+          path: "course",
+          match: { status: "Published"  },
+          populate: {
+            path: "instructor",
+        },
+        })
+        .exec()
 
-        if(!topSellingCourses){
+
+        const allCourses = allCategories.flatMap((category) => category.course)
+        const mostSellingCourses = allCourses
+          .sort((a, b) => b.sold - a.sold)
+          .slice(0, 10)
+
+
+        if(!mostSellingCourses){
             return res.status(404).json({
                 success : false,
                 message : "Courses not found for the Top selling category"
@@ -97,9 +122,9 @@ exports.categoryPageDetails = async (req, res) =>{
         return res.status(200).json({
             success : true,
             data : {
-                getCoursesForCategory,
+                selectedCategory,
                 differentCategory,
-                topSellingCourses
+                mostSellingCourses
             },
             message : "Courses fetched for all categories"
         })

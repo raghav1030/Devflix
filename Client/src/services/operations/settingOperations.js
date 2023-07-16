@@ -22,7 +22,7 @@ return async (dispatch) => {
         formData,
         {
         "Content-Type": "multipart/form-data",
-        Authorisation: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         }
     )
     console.log(
@@ -49,7 +49,7 @@ return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     try {
     const response = await apiConnector("PUT", UPDATE_PROFILE_API, formData, {
-        Authorisation: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
     })
     console.log("UPDATE_PROFILE_API API RESPONSE............", response)
 
@@ -75,7 +75,7 @@ export async function changePassword(token, formData) {
 const toastId = toast.loading("Loading...")
 try {
     const response = await apiConnector("POST", CHANGE_PASSWORD_API, formData, {
-    Authorisation: `Bearer ${token}`,
+    Authorization: `Bearer ${token}`,
     })
     console.log("CHANGE_PASSWORD_API API RESPONSE............", response)
 
@@ -95,7 +95,7 @@ return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     try {
     const response = await apiConnector("DELETE", DELETE_PROFILE_API, null, {
-        Authorisation: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
     })
     console.log("DELETE_PROFILE_API API RESPONSE............", response)
 

@@ -7,7 +7,7 @@ const User = require('../models/User')
 exports.auth = async (req, res, next) =>{
     try{
         // extract Token
-        const token = req.cookies.token  || req.body.token || req.header("Authorisation").replace("Bearer", "");
+        const token = req.cookies.token  || req.body.token || req.header("Authorization").replace("Bearer", "");
 
         console.log(token)
 
@@ -53,7 +53,7 @@ exports.auth = async (req, res, next) => {
         //extract token
         const token = req.cookies.token 
                         || req.body.token 
-                        || req.header("Authorisation").replace("Bearer ", "");
+                        || req.header("Authorization").replace("Bearer ", "");
 
         //if token missing, then return response
         if(!token) {
@@ -66,7 +66,7 @@ exports.auth = async (req, res, next) => {
         //verify the token
         try{
             const decode =  jwt.verify(token, process.env.JWT_SECRET);
-            console.log("Details from token Authorisation",decode);
+            console.log("Details from token Authorization",decode);
             req.user = decode;
         }
         catch(err) {

@@ -32,6 +32,7 @@ const Navbar = () => {
     //         link : "/catalog/web-development"
     //     },
     // ]
+    
 
     async function fetchApi(){
         try {
@@ -46,6 +47,8 @@ const Navbar = () => {
             console.error(e)
         }
     }
+
+    console.log(subLinks)
 
     useEffect( () => {
         fetchApi()
@@ -85,13 +88,21 @@ const Navbar = () => {
                                                 {
                                                         subLinks?.length && (
                                                             
-                                                                subLinks.map((category) => {
-                                                                    return <NavLink to={category?.link} key={category._id} className={''}>
-                                                                            <p className='text-richblack-700 hover:bg-richblack-25 p-3  '>
-                                                                                {category?.name}
-                                                                            </p>
-                                                                        </NavLink>
-                                                                })
+                                                            subLinks
+                                                                .map((subLink, i) => (
+                                                                  <NavLink
+                                                                    to={`/catalog/${subLink?.name
+                                                                    //   .split(" ")
+                                                                    //   .join("-")
+                                                                    //   .toLowerCase()
+                                                                    }  `
+                                                                    }
+                                                                    className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
+                                                                    key={i}
+                                                                  >
+                                                                    <p>{subLink.name}</p>
+                                                                  </NavLink>
+                                                                ))
                                                             
                                                         )  
                                                         

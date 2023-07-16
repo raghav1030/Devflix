@@ -35,7 +35,10 @@ exports.createSection = async (req, res) =>{
 
 exports.updateSection = async (req, res) => {
     try{
-        const {sectionId , sectionName } = req.body
+        const {sectionId , sectionName, courseId } = req.body
+        console.log("sectionId" , sectionId)
+        console.log("sectionName" , sectionName)
+
 
         if(!sectionId || !sectionName){
             return res.status(400).json({
@@ -44,11 +47,24 @@ exports.updateSection = async (req, res) => {
             })
         }
 
-        const section = await Section.findByIdAndUpdate(sectionId, {sectionName: sectionName}, {new:true})
+        const section = await Section.findByIdAndUpdate(sectionId, {sectionName: sectionName}, {new:true}).populate('subSection').exec()
+
+        // console.log("Update Section Data", section)
+
+        // const updateCourse = await Course.findByIdAndUpdate(courseId , {courseContent : })
+
+        const course = await Course.findById(courseId).populate({
+            path : "courseContent",
+            populate : {
+                path : "subSection"
+            }
+        }).exec()
+
 
         return res.status(200).json({
             success : true,
-            message : "Section updated successfully"
+            message : "Section updated successfully",
+            data : course,
         })
     }
     catch(e){
@@ -72,11 +88,12 @@ exports.deleteSection = async (req, res) => {
         }
 
         const deleteFromCourse = await Course.findByIdAndUpdate(courseId , {$pull : {courseContent : sectionId}}, {new: true})
+        console.log(deleteFromCourse)
 
         if(!deleteFromCourse){
             return res.status(402).json({
                 success : false,
-                message : "Unable to update course while deleting section"
+                message : "Unable to update course while deleting section",
             })
         }
         const section = await Section.findByIdAndDelete(sectionId)
@@ -92,7 +109,9 @@ exports.deleteSection = async (req, res) => {
 
         return res.status(200).json({
             success : true,
-            message : "Section Deleted Successfully"
+            message : "Section Deleted Successfully",
+            data : deleteFromCourse
+
         })
     }
     catch(e){

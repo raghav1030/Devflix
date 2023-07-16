@@ -20,6 +20,9 @@ import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses/Enrolle
 import Cart from "./components/core/Dashboard/Cart/Cart";
 import SettingsIndex from './components/core/Dashboard/Settings/SettingsIndex'
 import AddCourseIndex from "./components/core/Dashboard/AddCourse/AddCourseIndex";
+import MyCourses from "./components/core/Dashboard/MyCourses/MyCourses";
+import EditCourse from "./components/core/Dashboard/EditCourse/EditCourse";
+import Catalog from "./pages/Catalog";
 
 function App() {
 
@@ -88,6 +91,9 @@ function App() {
 
         <Route path="/contact" Component={ContactUs} ></Route>
 
+        <Route path="/catalog/:catalogName" Component={Catalog} ></Route>
+        
+
         
 
         <Route  element={
@@ -110,19 +116,25 @@ function App() {
         )
       }
 
+      
+
       {
         user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
           <>
           <Route path="dashboard/add-course" element={<AddCourseIndex />} />
+          <Route path="dashboard/my-courses" element={<MyCourses />} />
+          <Route path="/dashboard/edit-course/:courseId" element={<EditCourse/>} />
+
           </>
         )
 
       }
+
       </Route>
 
 
 
-        <Route to={'*'} Component={Error} ></Route>
+        <Route path={'*'} element={<Error/>} ></Route>
 
 
       </Routes>

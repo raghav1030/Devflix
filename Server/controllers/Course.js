@@ -96,9 +96,6 @@ exports.createCourse = async(req, res) =>{
     }
 }
 
-
-
-
 exports.getAllCourses = async (req,res) =>{
     try {
         const allCourses = await Course.find({}, {courseName : true, courseDescription : true, price: true,
@@ -107,7 +104,7 @@ exports.getAllCourses = async (req,res) =>{
         return res.status(200).json({
             success : true,
             message : "All courses fetched Successfully",
-            courses : allCourses
+            data : allCourses
         })
 
 
@@ -123,7 +120,13 @@ exports.getAllCourses = async (req,res) =>{
 
 exports.getCourseDetails = async (req, res) =>{
     try {
-        const {courseId} = req.body
+
+        const courseId = req.body.courseId
+        const userId = req.user.id
+
+        console.log("CourseId" , courseId)
+        console.log("UserId" , userId)
+        console.log("req.body" , req.body)
 
         const courseDetails = await Course.findById(courseId).populate({
                                                                     path : 'instructor',
@@ -145,7 +148,7 @@ exports.getCourseDetails = async (req, res) =>{
                                                                 }).exec()
 
         if(!courseDetails){
-            return res.status(404).json({
+            return res.status(400).json({
                 success : false,
                 message : "Invalid course id"
             })
@@ -154,7 +157,7 @@ exports.getCourseDetails = async (req, res) =>{
         return res.status(200).json({
             success : true,
             message : "Course Details successfully fetched",
-            course : courseDetails
+            data : courseDetails
         })
 
     } catch (error) {
@@ -274,3 +277,161 @@ exports.deleteCourse = async (req, res) =>{
     }
     
 }
+
+exports.editCourse = async (req, res) => {
+    try {
+        const {courseId} = req.body
+        const updates = req.body
+    
+        const course = await Course.findById(courseId)
+    
+        // Update thumbnail  if present
+    
+        if(req.files){
+            const thumbnail = req.files.thumbnailImage
+    
+            const updateThumbnail = await uploadImageToCloudinary(thumbnail, process.env.MEDIA_FOLDER)
+    
+            course.thumbnail = updateThumbnail.secure_url
+        }
+    
+        for(const key in updates){
+            if(updates.hasOwnProperty(key)){
+                if(key==="tag" || key==='instruction'){
+                    course[key] = JSON.parse(updates[key])
+                }
+                else{
+                    course[key] = updates[key]
+                }
+            }
+        }
+    
+        await course.save()
+    
+        const updatedCourse = await Course.findById(courseId).populate({
+            path: "instructor",
+            populate : {
+                path : "additionalDetails"
+            }    
+        })
+        .populate("category")
+        .populate("ratingAndReview")
+        .populate({
+            path : "courseContent",
+            populate : {
+                path : "subSection"
+            }
+        })
+        .exec()
+    
+        return res.status(200).json({
+            success : true,
+            message : "Course Edited Successfully",
+            data : updatedCourse
+        })
+    } catch (e) {
+        console.error(e)
+        return res.status(500).json({
+            success : false,
+            message : "Something went wrong while editing course",
+        })
+    }
+
+
+    
+}
+
+exports.getInstructorCourses = async(req, res) => {
+    try {
+        const instructorId = req.user.id
+    
+        const instructorCourses = await Course.find({instructor : instructorId} ).sort({createdAt : -1})
+    
+        return res.status(200).json({
+            success : true,
+            message : "Instructor Courses Fetched",
+            data : instructorCourses
+        })
+    } catch (e) {
+        console.error(e)
+        return res.status(500).json({
+            success : false,
+            message : "Something went wrong while fetching Instructor Courses"
+        })
+    }
+
+}
+
+
+exports.getFullCourseDetails = async (req, res) => {
+    try {
+      const { courseId } = req.body
+      console.log("courseId" , courseId)
+      const userId = req.user.id
+      const courseDetails = await Course.findOne({
+        _id: courseId,
+      })
+        .populate({
+          path: "instructor",
+          populate: {
+            path: "additionalDetails",
+          },
+        })
+        .populate("category")
+        .populate("ratingAndReviews")
+        .populate({
+          path: "courseContent",
+          populate: {
+            path: "subSection",
+          },
+        })
+        .exec()
+  
+      let courseProgressCount = await CourseProgress.findOne({
+        courseID: courseId,
+        userId: userId,
+      })
+  
+      console.log("courseProgressCount : ", courseProgressCount)
+  
+      if (!courseDetails) {
+        return res.status(400).json({
+          success: false,
+          message: `Could not find course with id: ${courseId}`,
+        })
+      }
+  
+      // if (courseDetails.status === "Draft") {
+      //   return res.status(403).json({
+      //     success: false,
+      //     message: `Accessing a draft course is forbidden`,
+      //   });
+      // }
+  
+      let totalDurationInSeconds = 0
+      courseDetails.courseContent.forEach((content) => {
+        content.subSection.forEach((subSection) => {
+          const timeDurationInSeconds = parseInt(subSection.timeDuration)
+          totalDurationInSeconds += timeDurationInSeconds
+        })
+      })
+  
+      const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+  
+      return res.status(200).json({
+        success: true,
+        data: {
+          courseDetails,
+          totalDuration,
+          completedVideos: courseProgressCount?.completedVideos
+            ? courseProgressCount?.completedVideos
+            : [],
+        },
+      })
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: error.message,
+      })
+    }
+  }

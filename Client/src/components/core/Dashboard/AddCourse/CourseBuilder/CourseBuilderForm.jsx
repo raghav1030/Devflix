@@ -41,15 +41,31 @@ const CourseBuilderForm = () => {
     }
 
     function goToNext() {
-        if(course.courseContent.length > 0){
-            toast.error("Please Enter Atleast One Section")
-        }
 
-        if(course.courseContent.some((subSection => subSection.length === 0))){
-            toast.error("Please Add Atleast one Sub Section")
-        }
 
-        dispatch(setStep(3))
+        if(course.courseContent.length === 0){
+           toast.error("Please Add Atleast one Section")
+           return
+       }
+
+        for(const i in course.courseContent){
+            if(course.courseContent[i].subSection.length === 0){
+                toast.error(`Please Enter Atleast One Sub Section in Section ${parseInt(i+1)}`)
+                return
+            }
+        }
+        
+        
+
+        // for(const section in course.courseContent){
+
+        //     if(section.subSection.length === 0){
+        //         toast.error("Please Add Atleast one Sub Section")
+        //         return
+        //     }
+        // }
+
+            dispatch(setStep(3))    
     }
 
     async function onSubmit(data){
@@ -57,17 +73,19 @@ const CourseBuilderForm = () => {
 
         let result = null 
         
+        
     
         if(editSectionName){
             try {
+                console.log("data for edit Section Name on submit", data)
                 result = await updateSection({
-                    sectionName : data.sectionName,
                     sectionId : editSectionName,
+                    sectionName : data.sectionName,
                     courseId : course._id,
                     
                 } , token)
 
-                console.log("section updated")
+                console.log("section updated" , result)
 
             } catch (e) {
                 console.error(e)

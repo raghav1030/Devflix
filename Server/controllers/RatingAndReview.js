@@ -76,14 +76,15 @@ exports.getAverageRating = async(req, res) => {
             return res.status(200).json({
             success : true,
             message : "Rating and review fetched",
-            averageRating : result[0].averageRating
+            data : result[0].averageRating
 
             })
         }
 
         return res.status(200).json({
             success : true,
-            message : "Average Rating is 0, no ratings given till now"
+            message : "Average Rating is 0, no ratings given till now",
+            data : 0
         })
 
     } catch (e){
@@ -111,7 +112,8 @@ exports.getAllRating = async (req, res)=>{
 
         return res.status(200).json({
             success : true,
-            message : "Fetched Average Ratings"
+            message : "Fetched Average Ratings",
+            data : allRatingAndReviews
         })
 
     } catch (e) {

@@ -1,7 +1,7 @@
 import React from 'react'
 import RenderSteps from './RenderSteps'
 import { useSelector } from 'react-redux'
-import PublishCourse from './PublishCourse'
+import PublishCourse from './PublishCourse/PublishCourse'
 import CourseBuilderForm from './CourseBuilder/CourseBuilderForm'
 import CourseInformationForm from './CourseInformation/CourseInformationForm'
 

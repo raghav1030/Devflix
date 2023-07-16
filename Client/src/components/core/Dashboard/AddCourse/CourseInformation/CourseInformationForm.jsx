@@ -9,6 +9,7 @@ import { setCourse, setStep , setEditCourse, setAllCourses } from '../../../../.
 import IconBtn from '../../../../common/IconBtn'
 import {COURSE_STATUS} from '../../../../../utils/constants'
 import { toast } from 'react-hot-toast'
+import Upload from '../Upload'
 // import { current } from '@reduxjs/toolkit'
 
 const CourseInformationForm = () => {
@@ -65,6 +66,7 @@ const CourseInformationForm = () => {
         }
 
         getCourseCategoriesDetails()
+        console.log("course" , course)
     },[])
 
     function isFormUpdated(){
@@ -302,10 +304,10 @@ return (
             watch={watch}
             />
 
-            <UploadImage label="Thumbnail"  
+            <Upload label="Thumbnail"  
             name='thumbnail'
             placeholder='Upload Thumbnail'
-            errors={errors.thumbnail}
+            errors={errors}
             setValue={setValue}
             register={register}
             getValues={getValues}
