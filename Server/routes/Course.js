@@ -74,7 +74,7 @@ router.post("/addSubSection", auth, isInstructor, createSubSection)
 // Get all Registered Courses
 router.get("/getAllCourses", getAllCourses)
 // Get Details for a Specific Courses
-router.get("/getCourseDetails", getCourseDetails)
+router.post("/getCourseDetails", getCourseDetails)
 // Get all the published courses
 router.get('/getPublishedCourses' , getPublishedAllCourses)
 // Delete courses

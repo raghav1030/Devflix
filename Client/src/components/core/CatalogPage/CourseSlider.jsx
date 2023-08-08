@@ -14,14 +14,14 @@ const CourseSlider = ({Courses}) => {
         {
             Courses?.length ? (
                 <Swiper
-                    slidesPerView={1}
+                    slidesPerView={3}
                     loop={true}
                     spaceBetween={200}
                     pagination={true}
                     modules={[Autoplay,Pagination,Navigation]}
                     className="mySwiper"
                     autoplay={{
-                    delay: 1000,
+                    delay: 6000,
                     disableOnInteraction: false,
                     }}
                     navigation={true}

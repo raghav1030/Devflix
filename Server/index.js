@@ -36,7 +36,7 @@ app.use(
 
 app.use('/api/v1/auth', UserRoutes) 
 app.use('/api/v1/course', CourseRoutes) 
-app.use('/api/v1/payements', PayementsRoutes) 
+app.use('/api/v1/payment', PayementsRoutes) 
 app.use('/api/v1/profile', ProfileRoutes) 
 
 app.get('/' , (req, res) => {

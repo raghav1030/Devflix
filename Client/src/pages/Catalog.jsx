@@ -12,41 +12,39 @@ const Catalog = () => {
 
     const {catalogName} = useParams()
     const [catalogPageData , setCatalogPageData] = useState(null)
-    const [categoryId , setCategoryId] = useState(null)
+    const [categoryId, setCategoryId] = useState("");
     
-    useEffect(()=>{
-        const getCategory = async ()=> {
-            try {
-                const result = await apiConnector('get' , categories.CATEGORIES_API)
-                // console.log(result)
-                const category_Id = result?.data?.data?.filter((ct) => (ct.name.split(" ").join('-').toLowerCase() === catalogName ))[0]._id
-                setCategoryId(category_Id)
-            } catch (error) {
-                console.error(error)
-            }
+    useEffect(()=> {
+        const getCategories = async() => {
+            const res = await apiConnector("GET", categories.CATEGORIES_API);
+            const category_id = 
+            res?.data?.data?.filter((ct) => ct.name.split(" ").join("-").toLowerCase() === catalogName)[0]._id;
+            setCategoryId(category_id);
         }
+        getCategories();
+    },[catalogName]);
 
-            getCategory();
-        
-        
-    } , [catalogName])
-
-    useEffect(()=>{
+    useEffect(() => {
         const getCategoryDetails = async() => {
-            try {
-                console.log(categoryId)
-                const result = await getCatalogPageData(categoryId)
-                console.log("Printing result of catalogPageData", result)
-                setCatalogPageData(result)
-            } catch (e) {
-                console.error(e)
+            try{
+                const res = await getCatalogPageData(categoryId);
+                console.log("PRinting res: ", res);
+                setCatalogPageData(res);
+            }
+            catch(error) {
+                console.log(error)
             }
         }
+        if(categoryId) {
+            getCategoryDetails();
+        }
+        
+    },[categoryId]);
 
-        getCategoryDetails()
-    } , [categoryId])
-
-    console.log("catalogPageData?.selectedCategory" , catalogPageData?.selectedCategory)
+    // console.log(catalogData)
+    // console.log("catalogPageData?.selectedCategory.course" , catalogPageData?.selectedCategory.course)
+    // console.log("catalogPageData?.differentCategory?.course" , catalogPageData?.differentCategory[0]?.course)
+    // console.log("catalogPageData?.mostSellingCourses" , catalogPageData?.mostSellingCourses)
 
 
     return (
@@ -70,7 +68,17 @@ const Catalog = () => {
                     <p>New</p>
                 </div>
                 <div>
-                    <CourseSlider Courses={catalogPageData?.selectedCategory} />
+                    {/* {
+                        catalogData?.differentCategory.map((category, index) => {
+
+                             <CourseSlider Courses={category?.course} key={index}  /> 
+                        })
+
+                    } */}
+
+                    <CourseSlider Courses={catalogPageData?.differentCategory[0]?.course}   /> 
+
+
                 </div>
             </div>  
 
@@ -91,7 +99,7 @@ const Catalog = () => {
                     <div className='grid grid-cols-1 lg:grid-cols-2'>
 
                         {
-                            catalogPageData?.mostSellingCourses?.slice(0,4)
+                            catalogPageData?.mostSellingCourses
                             .map((course, index) => (
                                 <Course_Card course={course} key={index} Height={"h-[400px]"}/>
                             ))

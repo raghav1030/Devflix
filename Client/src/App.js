@@ -23,6 +23,7 @@ import AddCourseIndex from "./components/core/Dashboard/AddCourse/AddCourseIndex
 import MyCourses from "./components/core/Dashboard/MyCourses/MyCourses";
 import EditCourse from "./components/core/Dashboard/EditCourse/EditCourse";
 import Catalog from "./pages/Catalog";
+import CourseDetails from "./pages/CourseDetails";
 
 function App() {
 
@@ -30,10 +31,16 @@ function App() {
 
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex-col font-inter text-white" >
+      
       <Navbar/>
       <Routes>
         
         <Route path="/" Component={Home}/>
+        <Route path="/about" Component={AboutPage} ></Route>
+        <Route path="/contact" Component={ContactUs} ></Route>
+        <Route path="/catalog/:catalogName" Component={Catalog} ></Route>
+        <Route path="/courses/:courseId" element={<CourseDetails/>} />
+
 
 
         <Route
@@ -46,98 +53,82 @@ function App() {
         />
 
 
-    <Route
-          path="login"
-          element={
-            <OpenRoute>
-              <Login />
-            </OpenRoute>
+          <Route
+            path="login"
+            element={
+              <OpenRoute>
+                <Login />
+              </OpenRoute>
+            }
+          />
+
+
+          <Route
+            path="forgot-password"
+            element={
+              <OpenRoute>
+                <ForgotPassword />
+              </OpenRoute>
+            }
+          />  
+
+
+          <Route
+            path="verify-email"
+            element={
+              <OpenRoute>
+                <VerifyOtp />
+              </OpenRoute>
+            }
+          />  
+
+
+          <Route
+            path="updatePassword/:id"
+            element={
+              <OpenRoute>
+                <UpdatePassword />
+              </OpenRoute>
+            }
+          />  
+
+
+          <Route  element={
+            <ProtectedRoute>
+            <Dashboard />
+            </ProtectedRoute>
+          } >
+
+          <Route path="/dashboard/my-profile" element = {<MyProfile/> } />
+          <Route path="/dashboard/settings" element = {<SettingsIndex/> } />
+
+          {
+            user?.accountType === ACCOUNT_TYPE.STUDENT && (
+              <>
+              <Route path="dashboard/cart" element={<Cart />} />
+              <Route path="dashboard/enrolled-courses" element={<EnrolledCourses />} />
+              </>
+            )
           }
-        />
 
+          {
+              user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
+                <>
+                <Route path="dashboard/add-course" element={<AddCourseIndex />} />
+                <Route path="dashboard/my-courses" element={<MyCourses />} />
+                <Route path="/dashboard/edit-course/:courseId" element={<EditCourse/>} />
 
-    <Route
-          path="forgot-password"
-          element={
-            <OpenRoute>
-              <ForgotPassword />
-            </OpenRoute>
+                </>
+              )
+
           }
-        />  
 
-
-      <Route
-          path="verify-email"
-          element={
-            <OpenRoute>
-              <VerifyOtp />
-            </OpenRoute>
-          }
-        />  
-
-
-    <Route
-          path="updatePassword/:id"
-          element={
-            <OpenRoute>
-              <UpdatePassword />
-            </OpenRoute>
-          }
-        />  
-
-
-        <Route path="/about" Component={AboutPage} ></Route>
-
-
-        <Route path="/contact" Component={ContactUs} ></Route>
-
-        <Route path="/catalog/:catalogName" Component={Catalog} ></Route>
-        
-
-        
-
-        <Route  element={
-          <ProtectedRoute>
-          <Dashboard />
-          </ProtectedRoute>
-        } >
-
-        <Route path="/dashboard/my-profile" element = {<MyProfile/> } />
-
-        <Route path="/dashboard/settings" element = {<SettingsIndex/> } />
-
-
-        {
-        user?.accountType === ACCOUNT_TYPE.STUDENT && (
-          <>
-          <Route path="dashboard/cart" element={<Cart />} />
-          <Route path="dashboard/enrolled-courses" element={<EnrolledCourses />} />
-          </>
-        )
-      }
-
-      
-
-      {
-        user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
-          <>
-          <Route path="dashboard/add-course" element={<AddCourseIndex />} />
-          <Route path="dashboard/my-courses" element={<MyCourses />} />
-          <Route path="/dashboard/edit-course/:courseId" element={<EditCourse/>} />
-
-          </>
-        )
-
-      }
-
-      </Route>
-
-
+        </Route>
 
         <Route path={'*'} element={<Error/>} ></Route>
 
 
-      </Routes>
+        </Routes>
     </div>
   );
 }

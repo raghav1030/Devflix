@@ -45,7 +45,7 @@ return (
                     {/* Cards shure hote h ab */}
                     {
                         enrolledCourses.map((course,index)=> (
-                            <div>
+                            <div key={index} >
                                 <div>
                                     <img  src={course.thumbnail}/>
                                     <div>

@@ -16,9 +16,9 @@ export async function getUserEnrolledCourses(token){
         })  
 
         toast.success('Courses Fetched')
-        console.log("Enrolled Courses : ", result)
+        console.log("Enrolled Courses : ", result.data.data)
 
-        courses = result.data 
+        courses = result.data.data
 
         if(!result.data.data){
             throw new Error(result.data.message)
