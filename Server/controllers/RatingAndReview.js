@@ -7,10 +7,10 @@ const { default: mongoose } = require('mongoose')
 exports.createRating =  async (req, res) =>{
     try{
         const {courseId, review, rating} = req.body
-        const {userId} = req.user
-
-        const courseDetails = await User.findById({_id: courseId,
-        studentsEnrolled: {$elemMatch : {$eq: userId }} })
+        const userId = req.user.id
+        const courseDetails = await Course.findOne({_id: courseId,
+        studentsEnrolled: {$elemMatch : {$eq: userId }}
+     })
 
         if(!courseDetails){
             return res.status(404).json({

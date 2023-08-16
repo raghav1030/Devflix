@@ -4,49 +4,49 @@ require('dotenv').config()
 
 const User = require('../models/User')
 
-exports.auth = async (req, res, next) =>{
-    try{
-        // extract Token
-        const token = req.cookies.token  || req.body.token || req.header("Authorization").replace("Bearer", "");
+// exports.auth = async (req, res, next) =>{
+//     try{
+//         // extract Token
+//         const token = req.cookies.token  || req.body.token || req.header("Authorization").replace("Bearer", "");
 
-        console.log(token)
+//         console.log(token)
 
-        if(!token){
-            return res.status(404).json({
-                success : false,
-                message : "Token is Missing"
-            })
-        }
+//         if(!token){
+//             return res.status(404).json({
+//                 success : false,
+//                 message : "Token is Missing"
+//             })
+//         }
 
-        try {
-            const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
-            console.log(verifyToken);
-            req.user = verifyToken;
-            return res.status(200).json({
-                success: true,
-                message: "Token Verified"
-            });
+//         try {
+//             const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
+//             console.log(verifyToken);
+//             req.user = verifyToken;
+//             return res.status(200).json({
+//                 success: true,
+//                 message: "Token Verified"
+//             });
             
-        } catch(e) {
-            console.error(e);
-            return res.status(401).json({
-            success: false,
-            message: "Error while verifying tokens"
-        });
-    }
+//         } catch(e) {
+//             console.error(e);
+//             return res.status(401).json({
+//             success: false,
+//             message: "Error while verifying tokens"
+//         });
+//     }
     
-    next();
+//     next();
     
     
-}
-    catch(e){
-        console.error(e)
-        return res.status(401).json({
-            success : false,
-            message : "Something went wrong while validating Tokens"
-        })
-    }
-}
+// }
+//     catch(e){
+//         console.error(e)
+//         return res.status(401).json({
+//             success : false,
+//             message : "Something went wrong while validating Tokens"
+//         })
+//     }
+// }
 
 exports.auth = async (req, res, next) => {
     try{

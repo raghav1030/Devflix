@@ -10,6 +10,7 @@ import LearningLanguageSection from '../components/core/HomePage/LearningLanguag
 import InstructorSection from '../components/core/HomePage/InstructorSection';
 import ExploreMore from '../components/core/HomePage/ExploreMore';
 import Footer from '../components/common/Footer';
+import ReviewSlider from '../components/core/HomePage/ReviewSlider';
 
 
 const Home = () => {
@@ -185,10 +186,12 @@ return (
             
 
 
-            <div>
-
-            </div>
+            
         </div>
+
+        <div className='w-full mx-auto'>
+                <ReviewSlider></ReviewSlider>
+            </div>
 
         {/* Section 4 */}
         <Footer/>

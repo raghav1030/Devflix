@@ -3,6 +3,7 @@ const Profile = require('../models/Profile')
 const Course = require('../models/Course')
 const { uploadImageToCloudinary } = require('../utils/imageUploader')
 const { default: mongoose } = require('mongoose')
+const CourseProgress = require('../models/CourseProgress')
 
 exports.updateProfile = async (req, res) => {
     try {
@@ -141,7 +142,31 @@ exports.getEnrolledCourses = async (req, res) =>{
     try{
         const {id} = req.user
         
-        const enrolledCourses = await User.findById(id).populate('courses').exec()
+        let enrolledCourses = await User.findById(id).populate({ path : 'courses',
+        populate :{
+            path : "instructor",
+            populate : {
+                path : "additionalDetails"
+            },
+        },
+            populate : {
+
+                path : "category",
+            },
+            populate : {
+                path : "ratingAndReview",
+            },
+            populate : {
+                path : "courseContent",
+                populate : {
+                    path : "subSection"
+                }
+            }
+        })
+        .populate("courseProgress")
+        .exec()
+
+        
 
         if(!enrolledCourses) {
             return res.status(404).json({
@@ -150,10 +175,47 @@ exports.getEnrolledCourses = async (req, res) =>{
             })
         }
 
+        
+
+        enrolledCourses = enrolledCourses.toObject()
+        for(let  i = 0; i < enrolledCourses.courseProgress.length; i++ ){
+            const courseId = enrolledCourses.courseProgress[i].courseId
+             
+            const courseDetails = await Course.findOne({
+                _id : courseId,
+            },
+            ).populate('courseContent')
+
+            let totalSubSections = 0
+
+            for(let j = 0 ; j < courseDetails.courseContent.length ; j++){
+                console.log("courseDetails.courseContent[i].subSection.length" , courseDetails.courseContent[i].subSection.length)
+                totalSubSections += courseDetails.courseContent[i].subSection.length
+            }
+           
+
+            let completedSubSections = enrolledCourses.courseProgress[i].completedVideos.length
+
+            const completedSubSectionPercentage = Math.floor((completedSubSections/totalSubSections) * 100)
+            console.log("completedSubSectionPercentage" , completedSubSectionPercentage )
+            console.log("completedSubSections" , completedSubSections)
+            console.log("totalSubSections", totalSubSections)
+
+
+            enrolledCourses.courses[i].courseProgressPercentage = completedSubSectionPercentage
+
+
+
+        }
+
+        // console.log(enrolledCourses)
         return res.status(200).json({
             success : true,
             message : "Courses in which user is enrolled were found",
-            data : enrolledCourses.courses
+            data : {
+                enrolledCourses : enrolledCourses.courses,
+                // completedSubSectionPercentage : completedSubSectionPercentage
+            }
 
         })
     }   catch(e){
@@ -166,3 +228,40 @@ exports.getEnrolledCourses = async (req, res) =>{
 }
 
     
+exports.instructorDashboard = async(req, res ) => {
+
+    try {
+        const courseDetails = await Course.find({instructor : req.user.id})
+
+        const courseData = courseDetails.map(course => {
+            const totalStudents = course.studentsEnrolled.length
+            const totalIncome = totalStudents*course.price
+
+            const courseDataWithStats = {
+                _id : course._id,
+                courseName : course.courseName,
+                courseDescription : course.courseDescription,
+                totalStudents,
+                totalIncome
+            }
+
+            return courseDataWithStats
+        })
+
+        return res.status(200).json({
+            success : true,
+            message : "Course data with stats fetched",
+            courses : courseData
+        })
+
+        
+
+
+
+    } catch (e) {
+        return res.status(500).json({
+            success : false,
+            message : "SOmething went wrong while fetching instructor dashboard details"
+        })
+    }
+}

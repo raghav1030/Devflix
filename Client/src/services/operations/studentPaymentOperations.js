@@ -132,12 +132,13 @@ const sendPaymentSuccessEmail = async(response, amount , token) =>{
             Authorization: `Bearer ${token}`
         })
 
+        toast.dismiss(toastId);
+        console.log(result)
 
     } catch (e) {
         console.log("PAYMENT SUCCESS EMAIL ERROR....", e);
         
     }
 
-    toast.dismiss(toastId);
 
 }
