@@ -1,17 +1,40 @@
-import React from 'react'
-import { BsChatLeftTextFill, BsGlobeCentralSouthAsia } from 'react-icons/bs'
-import ContactUsForm from '../components/common/ContactUsForm'
-import Footer from '../components/common/Footer'
-import { FiPhoneCall } from 'react-icons/fi'
-
+import React from "react";
+import { BsChatLeftTextFill, BsGlobeCentralSouthAsia } from "react-icons/bs";
+import ContactUsForm from "../components/common/ContactUsForm";
+import Footer from "../components/common/Footer";
+import { FiPhoneCall } from "react-icons/fi";
+import * as Icon1 from "react-icons/bi";
+import * as Icon3 from "react-icons/hi2";
+import * as Icon2 from "react-icons/io5";
 
 const ContactUs = () => {
-return (
-    <div className='w-screen flex flex-col mx-auto mt-16' >
-        <div className='flex w-11/12 gap-32 max-w-maxContent mx-auto mb-36 ' >
+  const contactDetails = [
+    {
+      icon: "HiChatBubbleLeftRight",
+      heading: "Chat on us",
+      description: "Our friendly team is here to help.",
+      details: "info@studynotion.com",
+    },
+    {
+      icon: "BiWorld",
+      heading: "Visit us",
+      description: "Come and say hello at our office HQ.",
+      details:
+        "Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016",
+    },
+    {
+      icon: "IoCall",
+      heading: "Call us",
+      description: "Mon - Fri From 8am to 5pm",
+      details: "+123 456 7869",
+    },
+  ];
 
-            <div className='flex flex-col justify-center items-start bg-richblack-800 w-[40%] p-4 h-fit gap-12 rounded-md tracking-wide' >
-                <div className='flex flex-col items-start justify-center gap-2 w-fit' >
+  return (
+    <div className="w-screen flex flex-col mx-auto mt-16">
+      <div className="mx-auto mt-20 flex w-11/12 max-w-maxContent flex-col justify-between gap-10 text-white lg:flex-row ">
+        {/* <div className='flex flex-col justify-center items-start bg-richblack-800 lg:w-[60%] p-4 h-fit gap-12 rounded-md tracking-wide' >
+                <div className='flex flex-col items-start justify-center gap-2 lg:w-fit' >
                     <h3 className='flex  text-lg gap-3 items-center text-richblack-5' >
                         <BsChatLeftTextFill></BsChatLeftTextFill>
                         Chat with us
@@ -46,27 +69,49 @@ return (
 
 
                 
-            </div>
-                
-            <div className='flex flex-col items-start justify-center gap-4 w-fit mx-auto'>
-                <div>
+            </div> */}
+        <div className="lg:w-[40%]" > 
 
-                <h2 className='text-4xl text-richblack-5  ' >Got a Idea ? We've got the skills.</h2>
-                <h2 className='text-4xl text-richblack-5  ' >Let's Team up</h2>
+        <div className="flex flex-col gap-6 rounded-xl bg-richblack-800 p-4 lg:p-6">
+          {contactDetails.map((ele, i) => {
+              let Icon = Icon1[ele.icon] || Icon2[ele.icon] || Icon3[ele.icon];
+              return (
+                  <div
+                  className="flex flex-col gap-[2px] p-3 text-sm text-richblack-200"
+                key={i}
+              >
+                <div className="flex flex-row items-center gap-3">
+                  <Icon size={25} />
+                  <h1 className="text-lg font-semibold text-richblack-5">
+                    {ele?.heading}
+                  </h1>
                 </div>
-                    
-                <p className='text-richblack-100 text-md leading-[1rem]'>Tell us more about you and what you've got in mind.</p>
-                
-                <div className='my-6 ' >
-
-                <ContactUsForm></ContactUsForm>
-                </div>
-            </div>
+                <p className="font-medium">{ele?.description}</p>
+                <p className="font-semibold">{ele?.details}</p>
+              </div>
+            );
+          })}
+        </div>
 
         </div>
-            <Footer></Footer>
-    </div>
-)
-}
 
-export default ContactUs
+
+        <div className="border border-richblack-600 text-richblack-300 rounded-xl p-7 lg:p-14 flex gap-3 flex-col mb-16">
+      <h1 className="text-4xl leading-10 font-semibold text-richblack-5">
+        Got a Idea? We&apos;ve got the skills. Let&apos;s team up
+      </h1>
+      <p className="">
+        Tell us more about yourself and what you&apos;re got in mind.
+      </p>
+
+      <div className="mt-7">
+        <ContactUsForm />
+      </div>
+    </div>
+      </div>
+      <Footer></Footer>
+    </div>
+  );
+};
+
+export default ContactUs;

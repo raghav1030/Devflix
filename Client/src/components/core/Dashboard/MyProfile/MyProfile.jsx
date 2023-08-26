@@ -9,6 +9,8 @@ export default function MyProfile() {
 const { user } = useSelector((state) => state.profile)
 const navigate = useNavigate()
 
+console.log(user)
+
 return (
     <div className="w-full ">
     <h1 className="mb-14 text-3xl font-medium text-richblack-5">
@@ -51,12 +53,12 @@ return (
         </div>
         <p
         className={`${
-            user?.additionalDetails?.about
+            user?.about
             ? "text-richblack-5"
             : "text-richblack-400"
         } text-sm font-medium`}
         >
-        {user?.additionalDetails?.about ?? "Write Something About Yourself"}
+        {user?.additionalDetails?.about ? user?.additionalDetails?.about : "Write Something About Yourself"}
         </p>
     </div>
     <div className="my-10 flex flex-col gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
@@ -104,7 +106,7 @@ return (
             <div>
             <p className="mb-2 text-sm text-richblack-600">Phone Number</p>
             <p className="text-sm font-medium text-richblack-5">
-                {user?.additionalDetails?.contactNumber ?? "Add Contact Number"}
+                {user?.additionalDetails?.contactNumber ? user?.additionalDetails?.contactNumber : "Add Contact Number"}
             </p>
             </div>
             <div>

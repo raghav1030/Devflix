@@ -7,24 +7,46 @@ const CourseProgress = require('../models/CourseProgress')
 
 exports.updateProfile = async (req, res) => {
     try {
-        const {about="", dateOfBirth="", contactNumber="", gender=""} = req.body
+        const {about, dateOfBirth, contactNumber, gender} = req.body
+        console.log(contactNumber)
         const {id} = req.user
 
-        const userDetails = await User.findById(id)
+        let userDetails = await User.findById(id).populate('additionalDetails').exec()
 
         const profileId = userDetails.additionalDetails
         const profileDetails = await Profile.findById(profileId)
+        console.log(profileDetails)
 
-        profileDetails.gender = gender
-        profileDetails.about = about
-        profileDetails.contactNumber = contactNumber
-        profileDetails.dateOfBirth = dateOfBirth
+        if(about){
+
+            profileDetails.about = about
+        }
+
+        if(gender){
+            profileDetails.gender = gender
+        }
+        
+        if(contactNumber){
+
+            profileDetails.contactNumber = contactNumber
+        }
+        
+        if(dateOfBirth){
+            profileDetails.dateOfBirth = dateOfBirth
+        }
 
         await profileDetails.save()
 
+        // profileDetails = await Profile.findById(profileId)
+         userDetails = await User.findById(id).populate('additionalDetails').exec()
+
+
+        console.log(userDetails)
+
         res.status(200).json({
             success : true,
-            message : "Profile has been Updted Successfully"
+            message : "Profile has been Updted Successfully",
+            data : userDetails
         })
 
         

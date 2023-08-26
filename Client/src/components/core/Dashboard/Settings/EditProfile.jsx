@@ -19,10 +19,13 @@ export default function EditProfile() {
     formState: { errors },
   } = useForm()
 
+
   const submitProfileForm = async (data) => {
     // console.log("Form Data - ", data)
     try {
-      dispatch(updateProfile(token, data))
+      const response = dispatch(updateProfile(token, data))
+      console.log(user)
+      // console.log(response)
     } catch (error) {
       console.log("ERROR MESSAGE - ", error.message)
     }
@@ -87,10 +90,7 @@ export default function EditProfile() {
                 id="dateOfBirth"
                 className="form-style"
                 {...register("dateOfBirth", {
-                  required: {
-                    value: true,
-                    message: "Please enter your Date of Birth.",
-                  },
+                  
                   max: {
                     value: new Date().toISOString().split("T")[0],
                     message: "Date of Birth cannot be in the future.",
@@ -113,7 +113,7 @@ export default function EditProfile() {
                 name="gender"
                 id="gender"
                 className="form-style"
-                {...register("gender", { required: true })}
+                {...register("gender")}
                 defaultValue={user?.additionalDetails?.gender}
               >
                 {genders.map((ele, i) => {
@@ -144,10 +144,7 @@ export default function EditProfile() {
                 placeholder="Enter Contact Number"
                 className="form-style"
                 {...register("contactNumber", {
-                  required: {
-                    value: true,
-                    message: "Please enter your Contact Number.",
-                  },
+                  
                   maxLength: { value: 12, message: "Invalid Contact Number" },
                   minLength: { value: 10, message: "Invalid Contact Number" },
                 })}
@@ -169,7 +166,7 @@ export default function EditProfile() {
                 id="about"
                 placeholder="Enter Bio Details"
                 className="form-style"
-                {...register("about", { required: true })}
+                {...register("about")}
                 defaultValue={user?.additionalDetails?.about}
               />
               {errors.about && (

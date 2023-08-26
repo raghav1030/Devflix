@@ -1,147 +1,121 @@
 import React from 'react'
 import HighlightText from '../components/common/HighlightText'
-import aboutus1 from '../assets/Images/aboutus1.webp'
-import aboutus2 from '../assets/Images/aboutus2.webp'
-import aboutus3 from '../assets/Images/aboutus3.webp'
+import BannerImage1 from '../assets/Images/aboutus1.webp'
+import BannerImage2 from '../assets/Images/aboutus2.webp'
+import BannerImage3 from '../assets/Images/aboutus3.webp'
 import FoundingStory from '../assets/Images/FoundingStory.png'
 import {CgQuote } from 'react-icons/cg'
-import StatsComponent from '../components/core/AboutPage/StatsComponent'
 import LearningGrid from '../components/core/AboutPage/LearningGrid'
 import ContactFormSection from '../components/core/AboutPage/ContactFormSection'
 import Footer from '../components/common/Footer'
+import ReviewSlider from '../components/core/HomePage/ReviewSlider'
+import Quote from '../components/core/AboutPage/Quote'
+import StatsComponent from '../components/core/AboutPage/StatsComponent'
 
 const AboutPage = () => {
   return (
-    <div className='w-screen flex flex-col justify-center items-center' >
-        {/* Section 1 */}
-
-        <div className='flex flex-col items-center mx-auto max-w-11/12  h-[400px] bg-richblack-800  pt-16 gap-4 ' >
-
-            <div className='  ' >
-                <h1 className='flex flex-col justify-center items-center text-4xl font-[500px] ' >Driving Innovation in Online Education for a <HighlightText text={'Brighter Future'} ></HighlightText></h1>
-            </div>
-
-            <div className='max-w-fit w-[60%]  text-richblack-200 text-md text-center mx-auto '>
-                <p>Devcomm is at the forefront of the driving innovation in online education. We're passionate about creating a brighter future by offering cutting edge courses, leveraging emerging technologies, and nurtuing a vibrant learning community. </p>
-            </div>
-
-            <div className='flex justify-center items-center gap-x-3 mt-10 ' >
-              <img src={aboutus1} alt="Random img" height={200} width={350} />
-              <img src={aboutus2} alt="Random img" height={200} width={350} />
-              <img src={aboutus3} alt="Random img" height={200} width={350} />
-            </div>
-
-        </div>
-
-        {/* Section 2 */}
-        <div className='w-11/12 mt-64 mx-auto flex  flex-col'>
-
-          <span>
-            <CgQuote className=' text-4xl translate-x-32 text-richblack-100 translate-y-5 ' /> 
-          </span>
-
-          <h1 className='text-richblack-100  font-[600px] text-3xl leading-[45px] mx-auto w-[75%]' >
-          We are passionate about revolutionizing the way we learn. Our innovative platform <HighlightText text={"combines technology"} />, <HighlightText text={"expertise"} gradientColors={'from-[#ff512f] to-[#f09819] '} />, and community to create an <HighlightText text={"unparalleled education experience."} gradientColors={'from-[#e65c00] to-[#f9d423] '} />
-          </h1>
-
-          <span>
-            <CgQuote className=' text-4xl translate-x-[40rem] -translate-y-14 text-richblack-100 ' /> 
-          </span>
-        </div>
-
-        {/* Section 3 */}
-        <section className='max-w-11/12 w-11/12  mt-24 mx-auto flex flex-col items-center justify-center gap-24 text-[18px]  '>
-
-          <div className=' mx-auto justify-center items-center flex   gap-16  ' >
-
-            <div className=' flex flex-col gap-5 lg:w-[600px]  '>
-              <h2 className='text-3xl ' >
-                <HighlightText text={'Our Founding Story'} gradientColors={'from-[#833ab4] via-[#fd1d1d] to-[#fcb045] '} />
-              </h2>
-
-              <p className='text-richblack-100 text-[16px]'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, obcaecati. Reiciendis impedit quidem rem repellat voluptas quos expedita, sit corrupti sequi accusantium soluta ad unde earum odit cumque esse eaque.
-              </p>
-
-              <p className=' text-[16px] text-richblack-100  ' >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente ipsa perferendis, obcaecati optio maxime distinctio modi ab asperiores quidem quis deserunt laudantium quibusdam ex omnis similique at! Adipisci, veniam pariatur!
-
-              </p>
-            </div>
-
-
-
-            <div className='  lg:w-[600px]    ' >
-              <img src={FoundingStory} width={600} alt="Our Founding Story" className='w-fit shadow-xl shadow-pink-900  '  />
-            </div>
-
+    <div>
+      <section className="bg-richblack-800">
+        <div className="relative mx-auto flex w-11/12 max-w-maxContent flex-col justify-between gap-10 text-center text-white">
+          <header className="mx-auto py-20 text-4xl font-semibold lg:w-[70%]">
+            Driving Innovation in Online Education for a
+            <HighlightText text={"Brighter Future"} />
+            <p className="mx-auto mt-3 text-center text-base font-medium text-richblack-300 lg:w-[95%]">
+              Studynotion is at the forefront of driving innovation in online
+              education. We're passionate about creating a brighter future by
+              offering cutting-edge courses, leveraging emerging technologies,
+              and nurturing a vibrant learning community.
+            </p>
+          </header>
+          <div className="sm:h-[70px] lg:h-[150px]"></div>
+          <div className="absolute bottom-0 left-[50%] grid w-[100%] translate-x-[-50%] translate-y-[30%] grid-cols-3 gap-3 lg:gap-5">
+            <img src={BannerImage1} alt="" />
+            <img src={BannerImage2} alt="" />
+            <img src={BannerImage3} alt="" />
           </div>
+        </div>
+      </section>
 
-          <div className='  mx-auto justify-center items-start flex gap-16 ' >
+      <section className="border-b border-richblack-700">
+        <div className="mx-auto flex w-11/12 max-w-maxContent flex-col justify-between gap-10 text-richblack-500">
+          <div className="h-[100px] "></div>
+          <Quote />
+        </div>
+      </section>
 
-            <div className='  flex flex-col gap-5 lg:w-[600px]'>
-              <h2 className='text-3xl ' >
-                <HighlightText text={'Our Vission'} gradientColors={'from-[#ff512f] to-[#f09819] '} />
-              </h2>
-
-              <p className='text-richblack-100 text-[16px]'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, obcaecati. Reiciendis impedit quidem rem repellat voluptas quos expedita, sit corrupti sequi accusantium soluta ad unde earum odit cumque esse eaque.
+      <section>
+        <div className="mx-auto flex w-11/12 max-w-maxContent flex-col justify-between gap-10 text-richblack-500">
+          <div className="flex flex-col items-center gap-10 lg:flex-row justify-between">
+            <div className="my-24 flex lg:w-[50%] flex-col gap-10">
+              <h1 className="bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#FCB045] bg-clip-text text-4xl font-semibold text-transparent lg:w-[70%] ">
+                Our Founding Story
+              </h1>
+              <p className="text-base font-medium text-richblack-300 lg:w-[95%]">
+                Our e-learning platform was born out of a shared vision and
+                passion for transforming education. It all began with a group of
+                educators, technologists, and lifelong learners who recognized
+                the need for accessible, flexible, and high-quality learning
+                opportunities in a rapidly evolving digital world.
               </p>
-
-              <p className=' text-[16px] text-richblack-100  ' >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente ipsa perferendis, obcaecati optio maxime distinctio modi ab asperiores quidem quis deserunt laudantium quibusdam ex omnis similique at! Adipisci, veniam pariatur!
-
+              <p className="text-base font-medium text-richblack-300 lg:w-[95%]">
+                As experienced educators ourselves, we witnessed firsthand the
+                limitations and challenges of traditional education systems. We
+                believed that education should not be confined to the walls of a
+                classroom or restricted by geographical boundaries. We
+                envisioned a platform that could bridge these gaps and empower
+                individuals from all walks of life to unlock their full
+                potential.
               </p>
             </div>
 
-            <div className=' flex flex-col gap-5  lg:w-[600px] '>
-              <h2 className='text-3xl ' >
-                <HighlightText text={'Our Mission'} />
-              </h2>
-
-              <p className='text-richblack-100 text-[16px]'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, obcaecati. Reiciendis impedit quidem rem repellat voluptas quos expedita, sit corrupti sequi accusantium soluta ad unde earum odit cumque esse eaque.
-              </p>
-
-              <p className=' text-[16px] text-richblack-100  ' >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente ipsa perferendis, obcaecati optio maxime distinctio modi ab asperiores quidem quis deserunt laudantium quibusdam ex omnis similique at! Adipisci, veniam pariatur!
-
-              </p>
+            <div>
+              <img
+                src={FoundingStory}
+                alt=""
+                className="shadow-[0_0_20px_0] shadow-[#FC6767]"
+              />
             </div>
-
-            
-
           </div>
-
-        </section>
-        
-
-        {/* Section 4 */}
-        <StatsComponent/>
-
-
-        {/* Section 5 */}
-        <div  className='w-11/12 mx-auto mt-28 ' >
-          <LearningGrid/>
+          <div className="flex flex-col items-center lg:gap-10 lg:flex-row justify-between">
+            <div className="my-24 flex lg:w-[40%] flex-col gap-10">
+              <h1 className="bg-gradient-to-b from-[#FF512F] to-[#F09819] bg-clip-text text-4xl font-semibold text-transparent lg:w-[70%] ">
+                Our Vision
+              </h1>
+              <p className="text-base font-medium text-richblack-300 lg:w-[95%]">
+                With this vision in mind, we set out on a journey to create an
+                e-learning platform that would revolutionize the way people
+                learn. Our team of dedicated experts worked tirelessly to
+                develop a robust and intuitive platform that combines
+                cutting-edge technology with engaging content, fostering a
+                dynamic and interactive learning experience.
+              </p>
+            </div>
+            <div className="my-24 flex lg:w-[40%] flex-col gap-10">
+              <h1 className="bg-gradient-to-b from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] text-transparent bg-clip-text text-4xl font-semibold lg:w-[70%] ">
+              Our Mission
+              </h1>
+              <p className="text-base font-medium text-richblack-300 lg:w-[95%]">
+              Our mission goes beyond just delivering courses online. We wanted to create a vibrant community of learners, where individuals can connect, collaborate, and learn from one another. We believe that knowledge thrives in an environment of sharing and dialogue, and we foster this spirit of collaboration through forums, live sessions, and networking opportunities.
+              </p>
+            </div>
+          </div>
         </div>
+      </section>
 
-        {/* Section 6 */}
+      <StatsComponent />
+      <section className="mx-auto mt-20 flex w-11/12 max-w-maxContent flex-col justify-between gap-10 text-white">
+        <LearningGrid />
+        <ContactFormSection />
+      </section>
 
-        <div className='mx-auto max-w-11/12  ' >
-          <ContactFormSection/>
-        </div>
-
-        {/* Section 7 */}
-
-        <footer className='w-full mt-36' >
-          <Footer></Footer>
-        </footer>
-
-
-
-
-
-
+      <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
+        {/* Reviws from Other Learner */}
+        <h1 className="text-center text-4xl font-semibold mt-8">
+          Reviews from other learners
+        </h1>
+        <ReviewSlider />
+      </div>
+      <Footer />
     </div>
   )
 }

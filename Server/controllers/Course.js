@@ -7,7 +7,7 @@ const {
   convertSecondsToDuration,
 } = require("../utils/convertSecondsToDurations");
 const SubSection = require("../models/SubSection");
-const CourseProgress = require('../models/CourseProgress')
+const CourseProgress = require("../models/CourseProgress");
 
 exports.createCourse = async (req, res) => {
   console.log(req.body);
@@ -164,7 +164,6 @@ exports.getAllCourses = async (req, res) => {
   }
 };
 
-
 exports.getCourseDetails = async (req, res) => {
   try {
     const { courseId } = req.body;
@@ -258,56 +257,162 @@ exports.getPublishedAllCourses = async (req, res) => {
   }
 };
 
+// exports.updateCourseDetails = async (req, res) => {
+//   try {
+//     const {courseId} = req.body;
+
+//     const updates = req.body
+
+//     // const thumbnail = req.files.thumbnailImage
+
+//     // const { thumbnail } = req.files;
+//     // const arr = [courseName, courseDescription, whatYouWillLearn, price, category, tag, instructions , status]
+
+//     let courseDetails = await Course.findById(courseId);
+
+//     // if (courseName !== (null || undefined)){
+//     //   courseDetails.courseName = courseName;
+//     // }
+//     // if (courseDescription !== (null || undefined))
+//     // {
+//     //   courseDetails.courseDescription = courseDescription;
+//     // }
+//     // if (whatYouWillLearn !== (null || undefined)){
+//     //   courseDetails.whatYouWillLearn = whatYouWillLearn;
+//     // }
+//     // if (price !== (null || undefined)){
+//     //   courseDetails.price = price;
+
+//     // }
+//     // if (category !== (null || undefined)){
+
+//     //   courseDetails.category = category;
+//     // }
+//     // if (tag !== (null || undefined)){
+
+//     //   courseDetails.tag = tag;
+//     // }
+
+//     // if (instructions !== (null || undefined)){
+
+//     //   courseDetails.instructions = instructions;
+//     // }
+//     // if (status !== (null || undefined)){
+
+//     //   courseDetails.status = status;
+//     // }
+
+//     for([key] in updates){
+//       if(updates.hasOwnProperty(key)){
+//         if(key === "tag" || key === 'instruction' ){
+//           courseDetails[key] = JSON.parse(updates[key])
+//         }
+//         else{
+//           courseDetails[key] = updates[key]
+
+//         }
+//       }
+//     }
+
+//     if (req.files) {
+//       console.log("thumbnail update")
+//       const thumbnail = req.files.thumbnailImage
+//       const thumbnailImage = await uploadImageToCloudinary(
+//         thumbnail,
+//         process.env.FOLDER_NAME
+//       )
+//       courseDetails.thumbnail = thumbnailImage.secure_url
+//     }
+
+//     // if (thumbnail !== (null || undefined)) {
+//     //   const uploadThumbnail = await uploadImageToCloudinary(
+//     //     thumbnail,
+//     //     process.env.MEDIA_FOLDER
+//     //   );
+//     //   courseDetails.thumbnail = uploadThumbnail.secure_url;
+//     // }
+
+//     await courseDetails.save();
+//     console.log(courseDetails);
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Course details updated",
+//       courseDetails: courseDetails,
+//     });
+//   } catch (e) {
+//     console.error(e);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Something went wrong while updating the course details",
+//     });
+//   }
+// };
+
 exports.updateCourseDetails = async (req, res) => {
   try {
-    const {
-      courseName,
-      courseDescription,
-      whatYouWillLearn,
-      price,
-      category,
-      tag,
-      instructions,
-      status,
-      courseId,
-    } = req.body;
+    const { courseId } = req.body;
+    const updates = req.body;
+    const course = await Course.findById(courseId);
 
-    const { thumbnail } = req.files;
-    // const arr = [courseName, courseDescription, whatYouWillLearn, price, category, tag, instructions , status]
-
-    const courseDetails = await Course.findById(courseId);
-
-    if (courseName) courseDetails.courseName = courseName;
-    if (courseDescription) courseDetails.courseDescription = courseDescription;
-    if (whatYouWillLearn) courseDetails.whatYouWillLearn = whatYouWillLearn;
-    if (price) courseDetails.price = price;
-    if (category) courseDetails.category = category;
-    if (tag) courseDetails.tag = tag;
-    if (instructions) courseDetails.instructions = instructions;
-    if (status) courseDetails.status = status;
-
-    if (thumbnail) {
-      const uploadThumbnail = await uploadImageToCloudinary(
-        thumbnail,
-        process.env.MEDIA_FOLDER
-      );
-      courseDetails.thumbnail = uploadThumbnail.secure_url;
+    if (!course) {
+      return res.status(404).json({ error: "Course not found" });
     }
 
-    console.log(courseDetails);
+    // If Thumbnail Image is found, update it
+    if (req.files) {
+      console.log("thumbnail update");
+      const thumbnail = req.files.thumbnailImage;
+      const thumbnailImage = await uploadImageToCloudinary(
+        thumbnail,
+        process.env.FOLDER_NAME
+      );
+      course.thumbnail = thumbnailImage.secure_url;
+    }
 
-    await courseDetails.save();
+    // Update only the fields that are present in the request body
+    for (const key in updates) {
+      if (updates.hasOwnProperty(key)) {
+        if (key === "tag" || key === "instructions") {
+          course[key] = JSON.parse(updates[key]);
+        } else {
+          course[key] = updates[key];
+        }
+      }
+    }
 
-    return res.status(200).json({
+    await course.save();
+
+    const updatedCourse = await Course.findOne({
+      _id: courseId,
+    })
+      .populate({
+        path: "instructor",
+        populate: {
+          path: "additionalDetails",
+        },
+      })
+      .populate("category")
+      .populate("ratingAndReview")
+      .populate({
+        path: "courseContent",
+        populate: {
+          path: "subSection",
+        },
+      })
+      .exec();
+
+    res.json({
       success: true,
-      message: "Course details updated",
-      courseDetails: courseDetails,
+      message: "Course updated successfully",
+      data: updatedCourse,
     });
-  } catch (e) {
-    console.error(e);
-    return res.status(500).json({
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
       success: false,
-      message: "Something went wrong while updating the course details",
+      message: "Internal server error",
+      error: error.message,
     });
   }
 };
@@ -429,7 +534,23 @@ exports.getInstructorCourses = async (req, res) => {
 
     const instructorCourses = await Course.find({
       instructor: instructorId,
-    }).sort({ createdAt: -1 });
+    })
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "instructor",
+        populate: {
+          path: "additionalDetails",
+        },
+      })
+      .populate("category")
+      .populate("ratingAndReview")
+      .populate({
+        path: "courseContent",
+        populate: {
+          path: "subSection",
+        },
+      })
+      .exec();
 
     return res.status(200).json({
       success: true,
@@ -447,7 +568,7 @@ exports.getInstructorCourses = async (req, res) => {
 
 exports.getFullCourseDetails = async (req, res) => {
   try {
-    const { courseId, subSectionId } = req.body;
+    const { courseId } = req.body;
     console.log("courseId", courseId);
     const userId = req.user.id;
     const courseDetails = await Course.findOne({
@@ -474,8 +595,7 @@ exports.getFullCourseDetails = async (req, res) => {
       userId: userId,
     });
 
-    console.log("courseProgressCount" , courseProgressCount )
-
+    console.log("courseProgressCount", courseProgressCount);
 
     if (!courseDetails) {
       return res.status(400).json({
@@ -504,14 +624,13 @@ exports.getFullCourseDetails = async (req, res) => {
     // const secure_url = await SubSection.findById(subSectionId);
     // console.log(secure_url);
 
-
     return res.status(200).json({
       success: true,
       data: {
         courseDetails,
         // subSectionData: secure_url,
 
-        totalDuration, 
+        totalDuration,
         completedVideos: courseProgressCount?.completedVideos
           ? courseProgressCount?.completedVideos
           : [],

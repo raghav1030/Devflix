@@ -6,16 +6,17 @@ import { TypeAnimation } from 'react-type-animation'
 
 const CodeBlocks = ({position, heading, subHeading, CTAbtn1, CTAbtn2, codeBlock, backgroundGradient, codeColor}) => {
     return (
-        <div className={`flex ${position} my-16 justify-center gap-36 align-top`}>
+        <div className={`flex ${position} my-20 justify-between flex lg:gap-10 gap-10`}>
             
-            <div className='w-[50%] flex-col  '>
+            {/* Section 1 */}
+            <div className='w-[100%] lg:w-[50%] flex flex-col gap-6  '>
                 <div className='text-4xl'>
                     {heading}
                 </div>
-                <div className=' text-richblack-300 text-[17px] tracking-wide font-[500px] mt-6 '>
+                <div className=' text-richblack-300 text-[17px] tracking-wide font-[500px]  '>
                     {subHeading}
                 </div>
-                <div className='flex gap-7 mt-9' >
+                <div className='flex gap-7 mt-7' >
                     <CTAbutton active={CTAbtn1.active} linkTo={CTAbtn1.linkto}  >
                         <div className='flex gap-2 items-center' >
                             {CTAbtn1.text}
@@ -30,11 +31,9 @@ const CodeBlocks = ({position, heading, subHeading, CTAbtn1, CTAbtn2, codeBlock,
             </div>
 
             {/* Section 2 Coding Animation */}
-            <div className='w-[100%] flex items-start justify-start h-fit py-4 text-[10px] gap-2 lg:w-[500px] bg-blur-[1px] border--[1px]  pt-0  '>
+            <div className={`h-fit code-border flex flex-row py-3 text-[10px] sm:text-sm leading-[18px] sm:leading-6 relative w-[100%] lg:w-[470px] ${backgroundGradient}  `}>
 
-                <div className={`absolute w-96 h-64 left-[calc(50% - 372.95px/2 - 76.53px)] top-[calc(50% - 257.05px/2 - 47.47px)]  opacity-[0.2] filter-[var(blur: 34px)] transform-matrix-3d(1, 0, -0.03, 1, 0, 0) ${backgroundGradient}`}   >
-
-                </div>
+                
 
                 <div className='text-center font-[500px] text-[15px]  leading-[25px] flex flex-col w-[10%] text-richblack-400  font-inter  '  >
                     <p>1</p>
@@ -62,7 +61,7 @@ const CodeBlocks = ({position, heading, subHeading, CTAbtn1, CTAbtn2, codeBlock,
                             
                         }
                     }
-                    sequence={[codeBlock, 10000, ""]}
+                    sequence={[codeBlock, 1000, ""]}
                     repeat={Infinity}
                     omitDeletionAnimation = {true}
                     curson={true}
@@ -70,10 +69,6 @@ const CodeBlocks = ({position, heading, subHeading, CTAbtn1, CTAbtn2, codeBlock,
                     />
                 </div>
                 
-
-                <div>
-
-                </div>
             </div>
 
         </div>

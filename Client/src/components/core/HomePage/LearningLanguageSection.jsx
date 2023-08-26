@@ -1,35 +1,46 @@
 import React from 'react'
 import HighlightText from '../../common/HighlightText'
-import KnowYourProgress from '../../../assets/Images/Know_your_progress.png'
-import  CompareWithOthers from '../../../assets/Images/Compare_with_others.png'
-import PlanYourLessons from '../../../assets/Images/Plan_your_lessons.png'
+import Know_your_progress from '../../../assets/Images/Know_your_progress.png'
+import  Compare_with_others from '../../../assets/Images/Compare_with_others.png'
+import Plan_your_lessons from '../../../assets/Images/Plan_your_lessons.png'
 import CTAbutton from '../../common/CTAbutton'
 
 const LearningLanguageSection = () => {
   return (
-    <div className='mt-[140px] mb-32 ' >
-        <div className='flex flex-col gap-5 items-center justify-center '>
-
-            <div className='text-4xl font-[500px] text-center '>
-                Your Swiss Knife for <HighlightText text={'learning any language'}></HighlightText>
-            </div>
-
-            <div className="text-center text-richblack-600 mx-auto text-base font-medium w-[75%]  ">
-                Using Spin making learning multiple languages easy, with 20+ languages, realistic voice-over, progress tracking, custom schedule and more 
-            </div>
-
-            <div className='flex flex-row justify-center items-center mt-5 mx-auto  ' >
-                <img className='object-contain -mr-32 ' loading='lazy' src={KnowYourProgress} alt="Know Your Progress" />
-                <img className='object-contain' loading='lazy' src={CompareWithOthers} alt="Compare with others" />
-                <img className='object-contain -ml-32' loading='lazy' src={PlanYourLessons} alt="Plan your lessons" />
-            </div>
-
-            <div className='w-fit ' >
-                <CTAbutton active={true} linkTo={'/signup'}> Learn More </CTAbutton>
-            </div>
-
+    <div className='mt-[140px] mb-32 '>
+    <div className="text-4xl font-semibold text-center my-10">
+        Your swiss knife for
+        <HighlightText text={"learning any language"} />
+        <div className="  text-richblack-700 font-medium lg:w-[75%] mx-auto leading-6 text-2xl mt-3">
+          Using spin making learning multiple languages easy. with 20+
+          languages realistic voice-over, progress tracking, custom schedule
+          and more.
         </div>
-    </div>
+        <div className="flex flex-col lg:flex-row items-center justify-center mt-8 lg:mt-0">
+          <img
+            src={Know_your_progress}
+            alt=""
+            className="object-contain  lg:-mr-32 "
+          />
+          <img
+            src={Compare_with_others}
+            alt=""
+            className="object-contain lg:-mb-10 lg:-mt-0 -mt-12"
+          />
+          <img
+            src={Plan_your_lessons}
+            alt=""
+            className="object-contain  lg:-ml-36 lg:-mt-5 -mt-16"
+          />
+        </div>
+      </div>
+
+      <div className="w-fit mx-auto lg:mb-20 mb-8 -mt-5">
+        <CTAbutton active={true} linkto={"/signup"}>
+          <div className="">Learn More</div>
+        </CTAbutton>
+      </div>
+</div>
   )
 }
 

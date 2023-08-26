@@ -1,105 +1,221 @@
-import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
-import IconBtn from '../../../../common/IconBtn'
-import { resetCourseState, setStep } from '../../../../../redux/slices/courseSlice'
-import { COURSE_STATUS } from '../../../../../utils/constants'
-import { editCourseDetails } from '../../../../../services/operations/courseOperations'
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import IconBtn from "../../../../common/IconBtn";
+import {
+  resetCourseState,
+  setStep,
+} from "../../../../../redux/slices/courseSlice";
+import { COURSE_STATUS } from "../../../../../utils/constants";
+import { editCourseDetails } from "../../../../../services/operations/courseOperations";
+import { useNavigate } from "react-router-dom";
 
 const PublishCourse = () => {
-    const {register , handleSubmit , getValues, setValue , formState:{errors}} = useForm()
-    const {token} = useSelector(state => state.auth)
-    const {course} = useSelector(state => state.course)
-    const dispatch = useDispatch()
-    const [loading , setLoading] = useState(false)
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const { token } = useSelector((state) => state.auth);
+  const { course } = useSelector((state) => state.course);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-    useEffect(()=>{
-        if(course?.status === COURSE_STATUS.PUBLISHED ){
-            setValue('public' , true)
-        }
-        console.log("course.status on first render being set to" , course.status)
-    },[])
+  // useEffect(()=>{
+  //     if(course?.status === COURSE_STATUS.PUBLISHED ){
+  //         setValue('public' , true)
+  //     }
+  //     console.log("course.status on first render being set to" , course.status)
+  // },[])
 
-    async function onSubmit(data){
-        handleCoursePublish()
+  useEffect(() => {
+    if (course?.status[0] === COURSE_STATUS.PUBLISHED) {
+      setValue("public", true);
     }
 
-    function goToCourses(){
-        dispatch(resetCourseState())
-        // navigate to MyCourses
+    console.log(getValues("public"));
+    console.log(course?.status[0]);
+  }, []);
+
+  async function onSubmit(data) {
+    handleCoursePublish();
+  }
+
+  function goToCourses() {
+    dispatch(resetCourseState());
+    // navigate to MyCourses
+    navigate("/dashboard/my-courses");
+  }
+
+  async function handleCoursePublish() {
+    if (
+      (course?.status[0] === COURSE_STATUS.PUBLISHED &&
+        getValues("public") === true) ||
+      (course?.status[0] === COURSE_STATUS.PUBLISHED &&
+        getValues("public") === true)
+    ) {
+      goToCourses();
+      return;
     }
 
-    async function handleCoursePublish(){
-        if(course?.status === COURSE_STATUS.PUBLISHED && getValues('public') === true ||
-        course?.status === COURSE_STATUS.PUBLISHED && getValues('public') === true){
-            
-            goToCourses()
-            return
-        }
+    const formData = new FormData();
+    formData.append("courseId", course._id);
 
-        const formData = new FormData()
-        formData.append('courseId', course._id)
+    const courseStatus =
+      getValues("public") === true
+        ? COURSE_STATUS.PUBLISHED
+        : COURSE_STATUS.DRAFT;
+    console.log(courseStatus);
+    console.log(getValues("public"));
+    formData.append("status", courseStatus);
 
-        const courseStatus = getValues('public') === true ? COURSE_STATUS.PUBLISHED : COURSE_STATUS.DRAFT
-        
-        formData.append("status", courseStatus)
+    setLoading(true);
+    const result = await editCourseDetails(formData, token);
 
-        setLoading(true)
-        const result = await editCourseDetails(formData, token)
-
-        if(result){
-            console.log("result", result)
-            console.log("course state after resetting the state" , course)
-            goToCourses()
-            setLoading(false)
-        }
-
+    if (result) {
+      console.log("result", result);
+      console.log("course state after resetting the state", course);
+      goToCourses();
+      setLoading(false);
     }
+  }
 
-    function goBack(){
-        dispatch(setStep(2))
-    }
+  function goBack() {
+    dispatch(setStep(2));
+  }
 
-    return (
-        <div className='rounded-md border-[1px] bg-richblack-800 p-6  border-richblack-700 flex flex-col gap-6 mt-6 '>
-            <p>Publish Course</p>
-             
-             <form action="submit" onSubmit={handleSubmit(onSubmit)}>
+  return (
+    <div className="rounded-md border-[1px] bg-richblack-800 p-6  border-richblack-700 flex flex-col gap-6 mt-6 ">
+      <p>Publish Course</p>
 
-                <div>
-                    <label className='flex justify-start items-center gap-3' >
-
-                        <input 
-                        type="checkbox"
-                        name="public"
-                        id="public" 
-                        {...register("public" , {required : true}) } 
-                        className='rounded h-4 w-4 '
-                        />
-
-                        <p>Make this course as public</p>
-                   
-                    </label>
-                </div>
-
-                <div className='flex items-center justify-end gap-4'>
-
-                    <button disabled={loading} type='button' onClick={goBack} className='py-2 px-5 bg-richblack-600 flex items-center rounded-md'>
-                        Back
-                    </button>
-
-                    <IconBtn
-                    disabled={loading}
-                    text={"Save Changes"}
-                    type={"Submit"}
-
-                    ></IconBtn>
-
-                </div>
-
-             </form>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* Checkbox */}
+        <div className="my-6 mb-8">
+          <label htmlFor="public" className="inline-flex items-center text-lg">
+            <input
+              type="checkbox"
+              id="public"
+              {...register("public")}
+              className="border-gray-300 h-4 w-4 rounded bg-richblack-500 text-richblack-400 focus:ring-2 focus:ring-richblack-5"
+            />
+            <span className="ml-2 text-richblack-400">
+              Make this course as public
+            </span>
+          </label>
         </div>
-    )
-}
 
-export default PublishCourse
+        {/* Next Prev Button */}
+        <div className="ml-auto flex max-w-max items-center gap-x-4">
+          <button
+            disabled={loading}
+            type="button"
+            onClick={goBack}
+            className="flex cursor-pointer items-center gap-x-2 rounded-md bg-richblack-300 py-[8px] px-[20px] font-semibold text-richblack-900"
+          >
+            Back
+          </button>
+          <IconBtn disabled={loading} text="Save Changes" />
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default PublishCourse;
+
+// export default function PublishCourse() {
+//     const { register, handleSubmit, setValue, getValues } = useForm()
+
+//     const dispatch = useDispatch()
+//     const navigate = useNavigate()
+//     const { token } = useSelector((state) => state.auth)
+//     const { course } = useSelector((state) => state.course)
+//     const [loading, setLoading] = useState(false)
+
+//     useEffect(() => {
+//       if (course?.status === COURSE_STATUS.PUBLISHED) {
+//         setValue("public", true)
+//       }
+//     }, [])
+
+//     const goBack = () => {
+//       dispatch(setStep(2))
+//     }
+
+//     const goToCourses = () => {
+//       dispatch(resetCourseState())
+//       navigate("/dashboard/my-courses")
+//     }
+
+//     const handleCoursePublish = async () => {
+//       // check if form has been updated or not
+//       if (
+//         (course?.status === COURSE_STATUS.PUBLISHED &&
+//           getValues("public") === true) ||
+//         (course?.status === COURSE_STATUS.DRAFT && getValues("public") === false)
+//       ) {
+//         // form has not been updated
+//         // no need to make api call
+//         goToCourses()
+//         return
+//       }
+//       const formData = new FormData()
+//       formData.append("courseId", course._id)
+//       const courseStatus = getValues("public")
+//         ? COURSE_STATUS.PUBLISHED
+//         : COURSE_STATUS.DRAFT
+//       formData.append("status", courseStatus)
+//       setLoading(true)
+//       const result = await editCourseDetails(formData, token)
+//       if (result) {
+//         goToCourses()
+//       }
+//       setLoading(false)
+//     }
+
+//     const onSubmit = (data) => {
+//       console.log(data.public)
+//       console.log(getValues('public'))
+//       handleCoursePublish()
+//     }
+
+//     return (
+//       <div className="rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6">
+//         <p className="text-2xl font-semibold text-richblack-5">
+//           Publish Settings
+//         </p>
+//         <form onSubmit={handleSubmit(onSubmit)}>
+//           {/* Checkbox */}
+//           <div className="my-6 mb-8">
+//             <label htmlFor="public" className="inline-flex items-center text-lg">
+//               <input
+//                 type="checkbox"
+//                 id="public"
+//                 {...register("public")}
+//                 className="border-gray-300 h-4 w-4 rounded bg-richblack-500 text-richblack-400 focus:ring-2 focus:ring-richblack-5"
+//               />
+//               <span className="ml-2 text-richblack-400">
+//                 Make this course as public
+//               </span>
+//             </label>
+//           </div>
+
+//           {/* Next Prev Button */}
+//           <div className="ml-auto flex max-w-max items-center gap-x-4">
+//             <button
+//               disabled={loading}
+//               type="button"
+//               onClick={goBack}
+//               className="flex cursor-pointer items-center gap-x-2 rounded-md bg-richblack-300 py-[8px] px-[20px] font-semibold text-richblack-900"
+//             >
+//               Back
+//             </button>
+//             <IconBtn disabled={loading} text="Save Changes" />
+//           </div>
+//         </form>
+//       </div>
+//     )
+//   }
