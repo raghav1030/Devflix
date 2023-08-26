@@ -28,7 +28,7 @@ return (
 
             </NavLink>
 
-            <div className='flex space-x-2 text-4xl mx-auto max-w-fit text-center'>
+            <div className='md:flex   space-x-2 text-4xl mx-auto max-w-fit text-center '>
                 <p> Empower Your Future With </p>  <HighlightText text={'Coding Skills'}/>
             </div>
 
@@ -155,7 +155,7 @@ return (
             </div>
             <div className="flex flex-col items-start gap-10 lg:w-[40%]">
               <div className=" text-lg ">
-                The modern StudyNotion is the dictates its own terms. Today, to
+                The modern DevSeed is the dictates its own terms. Today, to
                 be a competitive specialist requires more than professional
                 skills.
               </div>

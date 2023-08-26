@@ -58,7 +58,7 @@ export async function buyCourse(courses, token , userDetails, navigate, dispatch
             currency : orderResponse?.data?.message?.currency,
             amount : orderResponse?.data?.message?.amount,
             order_id: orderResponse.data.message.id,
-            name : 'Devcomm',
+            name : 'DevSeed',
             description : 'Thankyou for purchasing the course',
             image : rzpLogo,
             prefill : {

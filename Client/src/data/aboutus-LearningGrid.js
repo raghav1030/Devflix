@@ -3,7 +3,7 @@ export const learningGridData = [
         order : -1 ,
         heading : "World class learning for",
         highlightText : "Anyone, Anywhere",
-        description : "Devcomm partners with more than 275+ leading universities and companies to bring flexible, affordable and job-relevant online learning to individuals and organizations worldwide. ",
+        description : "DevSeed partners with more than 275+ leading universities and companies to bring flexible, affordable and job-relevant online learning to individuals and organizations worldwide. ",
         btnText : "Learn More",
         btnLink : "/"
     },
@@ -15,7 +15,7 @@ export const learningGridData = [
     {
         order : 2 ,
         heading : "Our Learning Methods",
-        description : "Devcomm Partners with more than 275+ leading universities and companies to bring.  ",
+        description : "DevSeed Partners with more than 275+ leading universities and companies to bring.  ",
     },
     {
         order : 3 ,
@@ -30,6 +30,6 @@ export const learningGridData = [
     {
         order : 5 ,
         heading : 'Ready to Work',
-        description : "Devcomm helps you becoming the ready to work person and helps you becoming job-ready for big-tech companies ",
+        description : "DevSeed helps you becoming the ready to work person and helps you becoming job-ready for big-tech companies ",
     },
 ]

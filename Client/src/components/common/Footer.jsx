@@ -172,7 +172,7 @@ return (
             })}
         </div>
 
-        <div className="text-center">Made with ❤️ Raghav © 2023 Devcomm</div>
+        <div className="text-center">Made with ❤️ Raghav © 2023 DevSeed</div>
         </div>
     </div>
     </div>

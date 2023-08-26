@@ -13,7 +13,7 @@ const ContactUs = () => {
       icon: "HiChatBubbleLeftRight",
       heading: "Chat on us",
       description: "Our friendly team is here to help.",
-      details: "info@studynotion.com",
+      details: "info@DevSeed.com",
     },
     {
       icon: "BiWorld",
@@ -41,7 +41,7 @@ const ContactUs = () => {
                     </h3>
 
                     <p className='text-richblack-200 text-md leading-[1rem] ' >Our frindly team is here to help</p>
-                    <a className='text-richblack-200 text-md leading-[1rem] ' href="mailto:info@devcomm.com">info@devcomm.com</a>
+                    <a className='text-richblack-200 text-md leading-[1rem] ' href="mailto:info@DevSeed.com">info@DevSeed.com</a>
 
                 </div>
 
@@ -52,7 +52,7 @@ const ContactUs = () => {
                     </h3>
 
                     <p className='text-richblack-200 text-md leading-[1rem] '>Visit our official HQ at</p>
-                    <p className='text-richblack-200 text-md leading-[1rem] '>Devcomm Pvt Ltd, NCR</p>
+                    <p className='text-richblack-200 text-md leading-[1rem] '>DevSeed Pvt Ltd, NCR</p>
                     <p className='text-richblack-200 text-md leading-[1rem] '>Delhi-110045</p>
 
                 </div>

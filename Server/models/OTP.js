@@ -20,7 +20,7 @@ const OTPSchema = new mongoose.Schema({
 
 async function sendVerificationEmail (email , otp){
     try {
-        const mailResponse = await mailSender(email, "Verification Email from DevComm", otpTemplate(otp))
+        const mailResponse = await mailSender(email, "Verification Email from DevSeed", otpTemplate(otp))
         console.log("OTP Sent Successfully : ", mailResponse)
     } catch (error) {
         console.error(error);
