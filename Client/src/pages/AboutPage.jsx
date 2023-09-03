@@ -1,16 +1,16 @@
-import React from 'react'
-import HighlightText from '../components/common/HighlightText'
-import BannerImage1 from '../assets/Images/aboutus1.webp'
-import BannerImage2 from '../assets/Images/aboutus2.webp'
-import BannerImage3 from '../assets/Images/aboutus3.webp'
-import FoundingStory from '../assets/Images/FoundingStory.png'
-import {CgQuote } from 'react-icons/cg'
-import LearningGrid from '../components/core/AboutPage/LearningGrid'
-import ContactFormSection from '../components/core/AboutPage/ContactFormSection'
-import Footer from '../components/common/Footer'
-import ReviewSlider from '../components/core/HomePage/ReviewSlider'
-import Quote from '../components/core/AboutPage/Quote'
-import StatsComponent from '../components/core/AboutPage/StatsComponent'
+import React from "react";
+import HighlightText from "../components/common/HighlightText";
+import BannerImage1 from "../assets/Images/aboutus1.webp";
+import BannerImage2 from "../assets/Images/aboutus2.webp";
+import BannerImage3 from "../assets/Images/aboutus3.webp";
+import FoundingStory from "../assets/Images/FoundingStory.png";
+import { CgQuote } from "react-icons/cg";
+import LearningGrid from "../components/core/AboutPage/LearningGrid";
+import ContactFormSection from "../components/core/AboutPage/ContactFormSection";
+import Footer from "../components/common/Footer";
+import ReviewSlider from "../components/core/HomePage/ReviewSlider";
+import Quote from "../components/core/AboutPage/Quote";
+import StatsComponent from "../components/core/AboutPage/StatsComponent";
 
 const AboutPage = () => {
   return (
@@ -21,7 +21,7 @@ const AboutPage = () => {
             Driving Innovation in Online Education for a
             <HighlightText text={"Brighter Future"} />
             <p className="mx-auto mt-3 text-center text-base font-medium text-richblack-300 lg:w-[95%]">
-              DevSeed is at the forefront of driving innovation in online
+              Devflix is at the forefront of driving innovation in online
               education. We're passionate about creating a brighter future by
               offering cutting-edge courses, leveraging emerging technologies,
               and nurturing a vibrant learning community.
@@ -29,9 +29,9 @@ const AboutPage = () => {
           </header>
           <div className="sm:h-[70px] lg:h-[150px]"></div>
           <div className="absolute bottom-0 left-[50%] grid w-[100%] translate-x-[-50%] translate-y-[30%] grid-cols-3 gap-3 lg:gap-5">
-            <img src={BannerImage1} alt="BannerImage1" loading='lazy' />
-            <img src={BannerImage2} alt="BannerImage2" loading='lazy' />
-            <img src={BannerImage3} alt="BannerImage3" loading='lazy' />
+            <img src={BannerImage1} alt="BannerImage1" loading="lazy" />
+            <img src={BannerImage2} alt="BannerImage2" loading="lazy" />
+            <img src={BannerImage3} alt="BannerImage3" loading="lazy" />
           </div>
         </div>
       </section>
@@ -92,10 +92,15 @@ const AboutPage = () => {
             </div>
             <div className="my-24 flex lg:w-[40%] flex-col gap-10">
               <h1 className="bg-gradient-to-b from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] text-transparent bg-clip-text text-4xl font-semibold lg:w-[70%] ">
-              Our Mission
+                Our Mission
               </h1>
               <p className="text-base font-medium text-richblack-300 lg:w-[95%]">
-              Our mission goes beyond just delivering courses online. We wanted to create a vibrant community of learners, where individuals can connect, collaborate, and learn from one another. We believe that knowledge thrives in an environment of sharing and dialogue, and we foster this spirit of collaboration through forums, live sessions, and networking opportunities.
+                Our mission goes beyond just delivering courses online. We
+                wanted to create a vibrant community of learners, where
+                individuals can connect, collaborate, and learn from one
+                another. We believe that knowledge thrives in an environment of
+                sharing and dialogue, and we foster this spirit of collaboration
+                through forums, live sessions, and networking opportunities.
               </p>
             </div>
           </div>
@@ -117,8 +122,7 @@ const AboutPage = () => {
       </div>
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default AboutPage
-
+export default AboutPage;

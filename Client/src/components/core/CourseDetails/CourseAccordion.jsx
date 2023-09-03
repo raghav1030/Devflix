@@ -1,90 +1,64 @@
-import React, { useRef, useState } from 'react'
-import {MdKeyboardArrowUp , MdComputer} from 'react-icons/md'
-import convertSecondsToDuration from '../../../utils/convertSecondsIntoDuration'
+import { useEffect, useRef, useState } from "react"
+import { AiOutlineDown } from "react-icons/ai"
+import CourseSubSectionAccordion from "./CourseSubSectionAccordion"
+// import convertSecondsToDuration from '../../../utils/convertSecondsIntoDuration'
 
-const CourseAccordion = ({courseContent}) => {
 
-
-    
-    function sectionDuration(subSections){
-        let duration = 0 
-        subSections.forEach(subSection => {
-            duration += subSection.timeDuration
-            duration = Math.ceil(duration)
-        });
-
-        const updatedDuration = convertSecondsToDuration(duration)
-        return updatedDuration  
-    }
-
-    const sectionRef = useRef(null)
-    const subSectionRef = useRef(null)
-
-    const [sectionExpand , setSectionExpand] = useState(false)
-    const [subSectionExpand , setSubSectionExpand] = useState(false)
-
-    const toggleSectionAccordion = () => {
-
-        setSectionExpand(!sectionExpand)
-        console.log(sectionExpand , sectionRef)
-
-        sectionRef.current.style.maxHeight = sectionExpand ? `${sectionRef.current.scrollHeight}px` : `0px` 
-
-    }
-
-    
-    const toggleSubSectionAccordion = () => {
-
-        setSubSectionExpand(!subSectionExpand)
-
-        subSectionRef.current.style.maxHeight = subSectionExpand ? `${subSectionRef.current.scrollHeight}px` : `0px` 
-    }
-    
-   
-
-  return (
-    <div>
-        {
-            courseContent.map(courseSection => 
-                <div key={courseSection._id} >
-                    
-                    <div className='flex justify-between items-center' onClick={toggleSectionAccordion}>
-                        <span className='flex justify-start items-center gap-3 '>
-                            <MdKeyboardArrowUp/> <span>{courseSection?.sectionName}</span>
-                        </span>
-
-                        <span className='flex justify-start items-center gap-3 '>
-                            <span>{courseSection?.subSection.length} lecture(s) </span> <span>{sectionDuration(courseSection?.subSection)}  </span>
-                        </span>
-
-                    </div>
-                    
-                    <div ref={sectionRef} style={{maxHeight : "0px"}}>
-                        {
-                            courseSection?.subSection.map((subSection => 
-                                <div key={subSection?._id} >
-                                    <div className='flex justify-between' onClick={toggleSubSectionAccordion}>
-                                        <span className='flex justify-start items-center gap-3'>
-                                            <MdComputer/> <span>{subSection.title} </span>  <MdKeyboardArrowUp/>
-                                        </span>
-
-                                        <span>
-                                            {convertSecondsToDuration(subSection.timeDuration)}
-                                        </span>
-                                    </div>
-
-                                    <div ref={subSectionRef} >
-                                        {subSection?.description}
-                                    </div>
-                                </div>
-                                ))
-                        }
-                    </div>
-                </div>
-                )
-        }
-    </div>
-  )
-}
+ function CourseAccordion({ course, isActive, handleActive }) {
+    const contentEl = useRef(null)
+  
+    // Accordian state
+    const [active, setActive] = useState(false)
+    useEffect(() => {
+      setActive(isActive?.includes(course._id))
+    }, [isActive])
+    const [sectionHeight, setSectionHeight] = useState(0)
+    useEffect(() => {
+      setSectionHeight(active ? contentEl.current.scrollHeight : 0)
+    }, [active])
+  
+    return (
+      <div className="overflow-hidden border border-solid border-richblack-600 bg-richblack-700 text-richblack-5 last:mb-0">
+        <div>
+          <div
+            className={`flex cursor-pointer items-start justify-between bg-opacity-20 px-7  py-6 transition-[0.3s]`}
+            onClick={() => {
+              handleActive(course._id)
+            }}
+          >
+            <div className="flex items-center gap-2">
+              <i
+                className={
+                  isActive.includes(course._id) ? "rotate-180" : "rotate-0"
+                }
+              >
+                <AiOutlineDown />
+              </i>
+              <p>{course?.sectionName}</p>
+            </div>
+            <div className="space-x-4">
+              <span className="text-yellow-25">
+                {`${course.subSection.length || 0} lecture(s)`}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          ref={contentEl}
+          className={`relative h-0 overflow-hidden bg-richblack-900 transition-[height] duration-[0.35s] ease-[ease]`}
+          style={{
+            height: sectionHeight,
+          }}
+        >
+          <div className="text-textHead flex flex-col gap-2 px-7 py-6 font-semibold">
+            {course?.subSection?.map((subSec, i) => {
+              return <CourseSubSectionAccordion subSec={subSec} key={i} />
+            })}
+          </div>
+        </div>
+      </div>
+    )
+  }
+  
 
 export default CourseAccordion

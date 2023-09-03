@@ -1,16 +1,16 @@
-import signupImg from "../assets/Images/signup.webp"
-import Template from "../components/core/auth/Template"
+import signupImg from "../assets/Images/signup.webp";
+import Template from "../components/core/auth/Template";
 
 function Signup() {
-return (
+  return (
     <Template
-    title="Join the millions learning to code with DevSeed for free"
-    description1="Build skills for today, tomorrow, and beyond."
-    description2="Education to future-proof your career."
-    image={signupImg}
-    formType="signup"
+      title="Join the millions learning to code with Devflix for free"
+      description1="Build skills for today, tomorrow, and beyond."
+      description2="Education to future-proof your career."
+      image={signupImg}
+      formType="signup"
     />
-)
+  );
 }
 
-export default Signup
+export default Signup;

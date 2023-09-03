@@ -31,7 +31,7 @@ const ViewCourse = () => {
   const setCourseSpecificDetails = async () => {
     const courseData = await getFullDetailsOfCourse(
       courseId,
-      subSectionId,
+      // subSectionId,
       token
     );
     console.log("courseData", courseData);

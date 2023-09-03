@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { addToCart } from '../../../redux/slices/cartSlice';
 import {ACCOUNT_TYPE} from '../../../utils/constants';
 import copy from 'copy-to-clipboard';
+import { BsFillCaretRightFill } from "react-icons/bs"
+import { FaShareSquare } from "react-icons/fa"
+
 
 
 function CourseDetailsCard({course, setConfirmationModal, handleBuyCourse}) {
@@ -52,65 +55,133 @@ function CourseDetailsCard({course, setConfirmationModal, handleBuyCourse}) {
     }
 
     return (
-        <div>
-            <img 
-                src={ThumbnailImage}
-                alt='Thumbnail Image'
-                className='max-h-[300px] min-h-[180px] w-[400px] rounded-xl'
-            />
-            <div>
-                Rs. {CurrentPrice}
-            </div>
-            <div className='flex flex-col gap-y-6'>
-                <button
-                 className='bg-yellow-50 w-fit text-richblack-900'
-                    onClick={
-                        user && course?.studentsEnrolled.includes(user?._id)
-                        ? ()=> navigate("/dashboard/enrolled-courses")
-                        : handleBuyCourse
-                    }
-                >
-                    {
-                        user && course?.studentsEnrolled.includes(user?._id) ? "Go to Course ": "Buy Now"
-                    }
-                </button>
+        // <div>
+        //     <img 
+        //         src={ThumbnailImage}
+        //         alt='Thumbnail Image'
+        //         className='max-h-[300px] min-h-[180px] w-[400px] rounded-xl'
+        //     />
+        //     <div>
+        //         Rs. {CurrentPrice}
+        //     </div>
+        //     <div className='flex flex-col gap-y-6'>
+        //         <button
+        //          className='bg-yellow-50 w-fit text-richblack-900'
+        //             onClick={
+        //                 user && course?.studentsEnrolled.includes(user?._id)
+        //                 ? ()=> navigate("/dashboard/enrolled-courses")
+        //                 : handleBuyCourse
+        //             }
+        //         >
+        //             {
+        //                 user && course?.studentsEnrolled.includes(user?._id) ? "Go to Course ": "Buy Now"
+        //             }
+        //         </button>
 
-                {
-                    (!course?.studentsEnrolled.includes(user?._id)) && (
-                        <button onClick={handleAddToCart}  
-                        className='bg-yellow-50 w-fit text-richblack-900'>
-                            Add to Cart
-                        </button>
-                    )
+        //         {
+        //             (!course?.studentsEnrolled.includes(user?._id)) && (
+        //                 <button onClick={handleAddToCart}  
+        //                 className='bg-yellow-50 w-fit text-richblack-900'>
+        //                     Add to Cart
+        //                 </button>
+        //             )
+        //         }
+        //     </div>
+
+        //     <div>
+        //         <p>
+        //             30-Day Money-Back Guarantee
+        //         </p>
+        //         <p>
+        //             This Course Includes:
+        //         </p>
+        //         <div className='flex flex-col gap-y-3'>
+        //             {
+        //                 course?.instructions?.map((item, index)=> (
+        //                     <p key={index} className='flex gap-2'>
+        //                         <span>{item}</span>
+        //                     </p>
+        //                 ))
+        //             }
+        //         </div>
+        //     </div>
+        //     <div>
+        //         <button
+        //         className='mx-auto flex items-center gap-2 p-6 text-yellow-50'
+        //         onClick={handleShare}
+        //         >
+        //             Share
+        //         </button>
+        //     </div>
+        // </div>
+
+        <>
+        <div
+          className={`flex flex-col gap-4 rounded-md bg-richblack-700 p-4 text-richblack-5`}
+        >
+          {/* Course Image */}
+          <img
+            src={ThumbnailImage}
+            alt={course?.courseName}
+            className="max-h-[300px] min-h-[180px] w-[400px] overflow-hidden rounded-2xl object-cover md:max-w-full"
+          />
+  
+          <div className="px-4">
+            <div className="space-x-3 pb-4 text-3xl font-semibold">
+              Rs. {CurrentPrice}
+            </div>
+            <div className="flex flex-col gap-4">
+              <button
+                className="yellowButton"
+                onClick={
+                  user && course?.studentsEnrolled.includes(user?._id)
+                    ? () => navigate("/dashboard/enrolled-courses")
+                    : handleBuyCourse
                 }
-            </div>
-
-            <div>
-                <p>
-                    30-Day Money-Back Guarantee
-                </p>
-                <p>
-                    This Course Includes:
-                </p>
-                <div className='flex flex-col gap-y-3'>
-                    {
-                        course?.instructions?.map((item, index)=> (
-                            <p key={index} className='flex gap-2'>
-                                <span>{item}</span>
-                            </p>
-                        ))
-                    }
-                </div>
-            </div>
-            <div>
-                <button
-                className='mx-auto flex items-center gap-2 p-6 text-yellow-50'
-                onClick={handleShare}
-                >
-                    Share
+              >
+                {user && course?.studentsEnrolled.includes(user?._id)
+                  ? "Go To Course"
+                  : "Buy Now"}
+              </button>
+              {(!user || !course?.studentsEnrolled.includes(user?._id)) && (
+                <button onClick={handleAddToCart} className="blackButton">
+                  Add to Cart
                 </button>
+              )}
             </div>
+            <div>
+              <p className="pb-3 pt-6 text-center text-sm text-richblack-25">
+                30-Day Money-Back Guarantee
+              </p>
+            </div>
+  
+            <div className={``}>
+              <p className={`my-2 text-xl font-semibold `}>
+                This Course Includes :
+              </p>
+              <div className="flex flex-col gap-3 text-sm text-caribbeangreen-100">
+                {course?.instructions?.map((item, i) => {
+                  return (
+                    <p className={`flex gap-2`} key={i}>
+                      <BsFillCaretRightFill />
+                      <span>{item}</span>
+                    </p>
+                  )
+                })}
+              </div>
+            </div>
+            <div className="text-center">
+              <button
+                className="mx-auto flex items-center gap-2 py-6 text-yellow-100 "
+                onClick={handleShare}
+              >
+                <FaShareSquare size={15} /> Share
+              </button>
+            </div>
+          </div>
         </div>
+      </>
+  
     );
 
 }

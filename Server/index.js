@@ -40,7 +40,7 @@ app.use('/api/v1/payment', PayementsRoutes)
 app.use('/api/v1/profile', ProfileRoutes) 
 
 app.get('/' , (req, res) => {
-    req.status(200).json({
+    res.status(200).json({
         success : true,
         message : "Your App is Up and Running"
     })

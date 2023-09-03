@@ -13,7 +13,7 @@ const ContactUs = () => {
       icon: "HiChatBubbleLeftRight",
       heading: "Chat on us",
       description: "Our friendly team is here to help.",
-      details: "info@DevSeed.com",
+      details: "info@Devflix.com",
     },
     {
       icon: "BiWorld",
@@ -41,7 +41,7 @@ const ContactUs = () => {
                     </h3>
 
                     <p className='text-richblack-200 text-md leading-[1rem] ' >Our frindly team is here to help</p>
-                    <a className='text-richblack-200 text-md leading-[1rem] ' href="mailto:info@DevSeed.com">info@DevSeed.com</a>
+                    <a className='text-richblack-200 text-md leading-[1rem] ' href="mailto:info@Devflix.com">info@Devflix.com</a>
 
                 </div>
 
@@ -52,7 +52,7 @@ const ContactUs = () => {
                     </h3>
 
                     <p className='text-richblack-200 text-md leading-[1rem] '>Visit our official HQ at</p>
-                    <p className='text-richblack-200 text-md leading-[1rem] '>DevSeed Pvt Ltd, NCR</p>
+                    <p className='text-richblack-200 text-md leading-[1rem] '>Devflix Pvt Ltd, NCR</p>
                     <p className='text-richblack-200 text-md leading-[1rem] '>Delhi-110045</p>
 
                 </div>
@@ -70,44 +70,41 @@ const ContactUs = () => {
 
                 
             </div> */}
-        <div className="lg:w-[40%]" > 
-
-        <div className="flex flex-col gap-6 rounded-xl bg-richblack-800 p-4 lg:p-6">
-          {contactDetails.map((ele, i) => {
+        <div className="lg:w-[40%]">
+          <div className="flex flex-col gap-6 rounded-xl bg-richblack-800 p-4 lg:p-6">
+            {contactDetails.map((ele, i) => {
               let Icon = Icon1[ele.icon] || Icon2[ele.icon] || Icon3[ele.icon];
               return (
-                  <div
+                <div
                   className="flex flex-col gap-[2px] p-3 text-sm text-richblack-200"
-                key={i}
-              >
-                <div className="flex flex-row items-center gap-3">
-                  <Icon size={25} />
-                  <h1 className="text-lg font-semibold text-richblack-5">
-                    {ele?.heading}
-                  </h1>
+                  key={i}
+                >
+                  <div className="flex flex-row items-center gap-3">
+                    <Icon size={25} />
+                    <h1 className="text-lg font-semibold text-richblack-5">
+                      {ele?.heading}
+                    </h1>
+                  </div>
+                  <p className="font-medium">{ele?.description}</p>
+                  <p className="font-semibold">{ele?.details}</p>
                 </div>
-                <p className="font-medium">{ele?.description}</p>
-                <p className="font-semibold">{ele?.details}</p>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-
-        </div>
-
 
         <div className="border border-richblack-600 text-richblack-300 rounded-xl p-7 lg:p-14 flex gap-3 flex-col mb-16">
-      <h1 className="text-4xl leading-10 font-semibold text-richblack-5">
-        Got a Idea? We&apos;ve got the skills. Let&apos;s team up
-      </h1>
-      <p className="">
-        Tell us more about yourself and what you&apos;re got in mind.
-      </p>
+          <h1 className="text-4xl leading-10 font-semibold text-richblack-5">
+            Got a Idea? We&apos;ve got the skills. Let&apos;s team up
+          </h1>
+          <p className="">
+            Tell us more about yourself and what you&apos;re got in mind.
+          </p>
 
-      <div className="mt-7">
-        <ContactUsForm />
-      </div>
-    </div>
+          <div className="mt-7">
+            <ContactUsForm />
+          </div>
+        </div>
       </div>
       <Footer></Footer>
     </div>
