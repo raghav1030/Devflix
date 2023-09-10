@@ -22,7 +22,7 @@ cloudinaryConnect()
 
 app.use(
     cors({
-        origin : "https://devflixxx.vercel.app/",
+        origin : "https://devflixxx.vercel.app",
         credentials : true,
     })
 )
