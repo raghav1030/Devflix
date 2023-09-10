@@ -31,27 +31,12 @@ const ViewCourse = () => {
   const setCourseSpecificDetails = async () => {
     const courseData = await getFullDetailsOfCourse(
       courseId,
-      // subSectionId,
       token
     );
-    console.log("courseData", courseData);
-    // setCourseData(courseData)
     dispatch(setCourseSectionData(courseData?.courseDetails?.courseContent));
     dispatch(setEntireCourseData(courseData?.courseDetails));
     dispatch(setCompletedLectures(courseData?.completedVideos));
 
-    console.log(
-      "courseSectionData, courseEntireData , completedLectures",
-      courseSectionData,
-      courseEntireData,
-      completedLectures
-    );
-    console.log("courseData?.completedVideos", courseData?.completedVideos);
-    console.log(
-      "courseData?.courseDetails?.courseContent",
-      courseData?.courseDetails?.courseContent[0]
-    );
-    console.log("courseData?.courseDetails", courseData?.courseDetails);
 
     let lectures = 0;
 
@@ -63,7 +48,6 @@ const ViewCourse = () => {
   };
 
   useEffect(() => {
-    console.log("Render 1");
     setCourseSpecificDetails();
   }, []);
 

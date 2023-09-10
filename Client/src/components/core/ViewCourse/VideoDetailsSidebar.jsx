@@ -18,16 +18,6 @@ const VideoDetailsSidebar = ({ setReviewModal }) => {
     totalNoOfLectures,
     completedLectures,
   } = useSelector((state) => state.viewCourse);
-  console.log(
-    "courseSectionData",
-    courseSectionData,
-    "courseEntireData",
-    courseEntireData,
-    "totalNoOfLectures",
-    totalNoOfLectures,
-    "completedLectures",
-    completedLectures
-  );
 
   useEffect(() => {
     const setActiveFlag = () => {
@@ -47,10 +37,8 @@ const VideoDetailsSidebar = ({ setReviewModal }) => {
 
       setActiveStatus(courseSectionData?.[currentSectionIndex]?._id);
       setVideoBarActive(activeSubSectionId);
-      console.log(activeStatus);
     };
 
-    console.log("Render 2");
     setActiveFlag();
   }, [courseSectionData, courseEntireData, location.pathname]);
 

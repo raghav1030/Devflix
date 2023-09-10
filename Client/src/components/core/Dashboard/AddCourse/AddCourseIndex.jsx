@@ -13,36 +13,17 @@ import {
 const AddCourseIndex = ({ callFromEditCourse = false }) => {
   const { step, course, editCourse } = useSelector((state) => state.course);
   const dispatch = useDispatch();
-  console.log(callFromEditCourse);
 
   useEffect(() => {
     if (!callFromEditCourse) {
-      console.log("Inside !callfromEditCourse");
       dispatch(setEditCourse(false));
       dispatch(setCourse(null));
       dispatch(setStep(1));
-      console.log(course, editCourse);
     }
-    console.log(editCourse);
   }, []);
-  // console.log(course, editCourse)
 
   return (
-    // <div>
-    //     <h1>Add Course</h1>
-
-    //     <div>
-    //         <RenderSteps></RenderSteps>
-    //     </div>
-
-    //     <div>
-    //         {step === 1 && <CourseInformationForm editCourse={callFromEditCourse ? true : false} />}
-    //         {step === 2 && <CourseBuilderForm/>}
-    //         {step === 3 && <PublishCourse/>}
-    //     </div>
-
-    // </div>
-
+    
     <>
       <div className="flex w-full items-start gap-x-6">
         <div className="flex flex-1 flex-col">

@@ -115,7 +115,7 @@ export const addCourseDetails = async (data, token) => {
       throw new Error("Could Not Add Course Details");
     }
     toast.success("Course Details Added Successfully");
-    result = response?.data;
+    result = response?.data.course;
     console.log("response?.data?.data", response?.data);
     console.log("course added in the course slice ");
   } catch (error) {

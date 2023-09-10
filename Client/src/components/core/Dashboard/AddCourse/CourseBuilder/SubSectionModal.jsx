@@ -76,7 +76,6 @@ const SubSectionModal = ({
         setLoading(true);
         //API call
         const result  = await updateSubSection(formData, token);
-        console.log("result of updateSubSection" , result)
         if(result) {
             //TODO: same check 
             dispatch(setCourse(result)); 
@@ -148,6 +147,7 @@ const SubSectionModal = ({
             register={register}
             setValue={setValue}
             errors={errors}
+            getValues={getValues}
             video={true}
             viewData={view ? modalData.videoUrl : null}
             editData={edit ? modalData.videoUrl : null}

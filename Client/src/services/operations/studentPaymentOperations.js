@@ -29,8 +29,8 @@ const loadScript = async (src) => {
 };
 
 export async function buyCourse(
-  token,
   courses,
+  token,
   userDetails,
   navigate,
   dispatch
@@ -44,7 +44,6 @@ export async function buyCourse(
       return;
     }
 
-    console.log(token);
     const orderResponse = await apiConnector(
       "POST",
       COURSE_PAYMENT_API,

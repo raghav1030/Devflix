@@ -21,11 +21,9 @@ function Catalog() {
       ;(async () => {
         try {
           const res = await apiConnector("GET", categories.CATEGORIES_API)
-          console.log(res)
           const category_id = res?.data?.data?.filter(
             (ct) => ct.name === catalogName
           )[0]._id
-          console.log(category_id)
           setCategoryId(category_id)
         } catch (error) {
           console.log("Could not fetch Categories.", error)
@@ -45,7 +43,6 @@ function Catalog() {
       }
     }, [categoryId])
 
-    console.log("catalogPageData" , catalogPageData)
   
     if (loading || !catalogPageData) {
       return (
@@ -66,11 +63,11 @@ function Catalog() {
             <p className="text-sm text-richblack-300">
               {`Home / Catalog / `}
               <span className="text-yellow-25 capitalize">
-                {catalogPageData?.selectedCategory?.name}
+                {catalogPageData?.selectedCategory?.name.split("-").join(" ")}
               </span>
             </p>
             <p className="text-3xl text-richblack-5 capitalize">
-              {catalogPageData?.selectedCategory?.name}
+              {catalogPageData?.selectedCategory?.name.split("-").join(" ")}
             </p>
             <p className="max-w-[870px] text-richblack-200 ">
               {catalogPageData?.selectedCategory?.description}
@@ -112,7 +109,7 @@ function Catalog() {
         {/* Section 2 */}
         <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
           <div className="section_heading">
-            Top courses in {catalogPageData?.differentCategory?.[0]?.name}
+            Top courses in <span className='capitalize'>{catalogPageData?.differentCategory?.[0]?.name.split("-").join(" ")} </span>
           </div>
           <div className="py-8">
             <CourseSlider

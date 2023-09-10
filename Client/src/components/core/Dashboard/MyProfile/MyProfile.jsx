@@ -9,7 +9,6 @@ export default function MyProfile() {
 const { user } = useSelector((state) => state.profile)
 const navigate = useNavigate()
 
-console.log(user)
 
 return (
     <div className="w-full ">

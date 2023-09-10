@@ -21,13 +21,9 @@ export default function EditProfile() {
 
 
   const submitProfileForm = async (data) => {
-    // console.log("Form Data - ", data)
     try {
       const response = dispatch(updateProfile(token, data))
-      console.log(user)
-      // console.log(response)
     } catch (error) {
-      console.log("ERROR MESSAGE - ", error.message)
     }
   }
   return (

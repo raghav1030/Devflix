@@ -22,7 +22,6 @@ export default function ChangeProfilePicture() {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
-    // console.log(file)
     if (file) {
       setImageFile(file)
       previewFile(file)
@@ -39,12 +38,9 @@ export default function ChangeProfilePicture() {
 
   async function handleFileUpload () {
     try{
-      console.log("uploading...")
       setLoading(true)
       const formData = new FormData()
       formData.append("displayPicture", imageFile)
-      console.log("formdata", formData)
-      console.log("imageFile", imageFile)
       dispatch(updateDisplayPicture(token, formData))
       setLoading(false)
 

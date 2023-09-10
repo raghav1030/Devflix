@@ -19,11 +19,9 @@ const CourseReviewModal = ({ setReviewModal }) => {
   } = useForm();
 
   const ratingChanged = (newRatings) => {
-    console.log(newRatings);
     setValue("courseRating", newRatings);
   };
 
-  console.log("courseEntireData", courseEntireData);
 
   const onSubmit = async (data) => {
     await createRating(

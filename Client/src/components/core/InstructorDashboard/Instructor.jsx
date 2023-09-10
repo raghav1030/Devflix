@@ -22,7 +22,6 @@ export default function Instructor() {
       setLoading(true)
       const instructorApiData = await getInstructorData(token)
       const result = await fetchInstructorCourses(token)
-      console.log(instructorApiData)
       if (instructorApiData.length) setInstructorData(instructorApiData)
       if (result) {
         setCourses(result)
@@ -36,7 +35,6 @@ export default function Instructor() {
     0
   )
 
-  console.log("instructorData" , instructorData)
 
   const totalStudents = instructorData?.reduce(
     (acc, curr) => acc + curr.totalStudents,

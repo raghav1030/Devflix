@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const Tab = ({tabData, accountType, setAccountType}) => {
 
-    
 
     return (
         <div style={{
@@ -10,9 +9,11 @@ const Tab = ({tabData, accountType, setAccountType}) => {
             }}
             className="flex bg-richblack-800 p-1 gap-x-1 my-6 rounded-full max-w-max">
             {
-                tabData.map((tab) => (
+                tabData.map((tab , index) => (
                     
-                    <button onClick={() => setAccountType(tab.type)}
+                    <button key={index} onClick={() => {
+                        setAccountType(tab.type);
+                    }}
                     className={`${
                         accountType === tab.type
                             ? "bg-richblack-900 text-richblack-5"

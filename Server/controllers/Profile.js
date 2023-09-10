@@ -7,9 +7,9 @@ const CourseProgress = require('../models/CourseProgress')
 
 exports.updateProfile = async (req, res) => {
     try {
-        const {about, dateOfBirth, contactNumber, gender} = req.body
+        const { about, dateOfBirth, contactNumber, gender } = req.body
         console.log(contactNumber)
-        const {id} = req.user
+        const { id } = req.user
 
         let userDetails = await User.findById(id).populate('additionalDetails').exec()
 
@@ -17,123 +17,123 @@ exports.updateProfile = async (req, res) => {
         const profileDetails = await Profile.findById(profileId)
         console.log(profileDetails)
 
-        if(about){
+        if (about) {
 
             profileDetails.about = about
         }
 
-        if(gender){
+        if (gender) {
             profileDetails.gender = gender
         }
-        
-        if(contactNumber){
+
+        if (contactNumber) {
 
             profileDetails.contactNumber = contactNumber
         }
-        
-        if(dateOfBirth){
+
+        if (dateOfBirth) {
             profileDetails.dateOfBirth = dateOfBirth
         }
 
         await profileDetails.save()
 
         // profileDetails = await Profile.findById(profileId)
-         userDetails = await User.findById(id).populate('additionalDetails').exec()
+        userDetails = await User.findById(id).populate('additionalDetails').exec()
 
 
         console.log(userDetails)
 
         res.status(200).json({
-            success : true,
-            message : "Profile has been Updted Successfully",
-            data : userDetails
+            success: true,
+            message: "Profile has been Updted Successfully",
+            data: userDetails
         })
 
-        
+
 
 
     } catch (e) {
         console.error(e)
         return res.status(500).json({
-            success : false,
-            message : "Something went wrong while updating Profile"
+            success: false,
+            message: "Something went wrong while updating Profile"
         })
     }
 }
 
-exports.deleteAccount = async (req, res) =>{
+exports.deleteAccount = async (req, res) => {
     try {
-        const id = req.user.id 
+        const id = req.user.id
 
         console.log(id)
         const userDetails = await User.findById(id)
-        
-        if(!userDetails){
+
+        if (!userDetails) {
             return res.status(404).json({
-                success : false,
-                message : "User doesn't exist"
+                success: false,
+                message: "User doesn't exist"
             })
         }
 
         const userProfileId = userDetails.additionalDetails._id
-        
-        await Profile.findByIdAndDelete(userProfileId)  
+
+        await Profile.findByIdAndDelete(userProfileId)
 
         const courses = userDetails.courses
 
-        courses.map(async (courseId) =>{
-            const course = await Course.findByIdAndUpdate(courseId,{
-                $pull : {studentsEnrolled : id}
-            }, {new : true})
+        courses.map(async (courseId) => {
+            const course = await Course.findByIdAndUpdate(courseId, {
+                $pull: { studentsEnrolled: id }
+            }, { new: true })
         })
 
         const deleteUser = await User.findByIdAndDelete(id)
 
         res.status(200).json({
-            success : true,
-            message : "User has been Deleted Successfully"
+            success: true,
+            message: "User has been Deleted Successfully"
         })
 
 
     } catch (e) {
         console.error(e)
         return res.status(500).json({
-            success : false,
-            message : "Something went wrong while Deleting Profile"
+            success: false,
+            message: "Something went wrong while Deleting Profile"
         })
     }
 
 }
-        
+
 
 exports.updateDisplayPicture = async (req, res) => {
-    try{
+    try {
 
         const userId = req.user.id
 
         const image = req.files.displayPicture
 
-        const displayPictureUpload = await uploadImageToCloudinary(image, process.env.MEDIA_FOLDER , 1000,1000)
+        const displayPictureUpload = await uploadImageToCloudinary(image, process.env.MEDIA_FOLDER, 1000, 1000)
 
-        const uploadDetails = await User.findByIdAndUpdate(userId, {image : displayPictureUpload.secure_url}, {new: true})
+        const uploadDetails = await User.findByIdAndUpdate(userId, { image: displayPictureUpload.secure_url }, { new: true })
 
-        if(!uploadDetails){
+        if (!uploadDetails) {
             return res.status(402).json({
-                success : false,
-                message : "Image file failed to upload"
+                success: false,
+                message: "Image file failed to upload"
             })
         }
 
         return res.status(200).json({
-            success : true,
-            message : "Image successfully uploaded",
-            data : uploadDetails
+            success: true,
+            message: "Image successfully uploaded",
+            data: uploadDetails
         })
-    } catch(e){
+    } catch (e) {
         console.error(e)
         return res.status(500).json({
-            success : false,
-            message : "Something went wrong while uploading the display picture"
+            success: false,
+            message: "Something went wrong while uploading the display picture"
         })
     }
 
@@ -147,80 +147,81 @@ exports.getUserDetails = async (req, res) => {
         const userDetails = await User.findById(id).populate('additionalDetails').exec()
 
         res.status(200).json({
-            success : true,
-            message : "Profile details has been fetched Successfully"
+            success: true,
+            message: "Profile details has been fetched Successfully"
         })
 
     } catch (e) {
         console.error(e)
         return res.status(500).json({
-            success : false,
-            message : "Something went wrong while fetching User Details"
+            success: false,
+            message: "Something went wrong while fetching User Details"
         })
     }
 }
 
-exports.getEnrolledCourses = async (req, res) =>{ 
-    try{
-        const {id} = req.user
-        
-        let enrolledCourses = await User.findById(id).populate({ path : 'courses',
-        populate :{
-            path : "instructor",
-            populate : {
-                path : "additionalDetails"
-            },
-        },
-            populate : {
+exports.getEnrolledCourses = async (req, res) => {
+    try {
+        const { id } = req.user
 
-                path : "category",
+        let enrolledCourses = await User.findById(id).populate({
+            path: 'courses',
+            populate: {
+                path: "instructor",
+                populate: {
+                    path: "additionalDetails"
+                },
             },
-            populate : {
-                path : "ratingAndReview",
+            populate: {
+
+                path: "category",
             },
-            populate : {
-                path : "courseContent",
-                populate : {
-                    path : "subSection"
+            populate: {
+                path: "ratingAndReview",
+            },
+            populate: {
+                path: "courseContent",
+                populate: {
+                    path: "subSection"
                 }
             }
         })
-        .populate("courseProgress")
-        .exec()
+            .populate("courseProgress")
+            .exec()
 
-        
 
-        if(!enrolledCourses) {
+
+        if (!enrolledCourses) {
             return res.status(404).json({
-                success : false,
-                message : "User not found or the can't populate courses"
+                success: false,
+                message: "User not found or the can't populate courses"
             })
         }
 
-        
+
 
         enrolledCourses = enrolledCourses.toObject()
-        for(let  i = 0; i < enrolledCourses.courseProgress.length; i++ ){
+        for (let i = 0; i < enrolledCourses.courseProgress.length; i++) {
             const courseId = enrolledCourses.courseProgress[i].courseId
-             
+
             const courseDetails = await Course.findOne({
-                _id : courseId,
+                _id: courseId,
             },
             ).populate('courseContent')
 
             let totalSubSections = 0
 
-            for(let j = 0 ; j < courseDetails.courseContent.length ; j++){
-                console.log("courseDetails.courseContent[i].subSection.length" , courseDetails.courseContent[i].subSection.length)
-                totalSubSections += courseDetails.courseContent[i].subSection.length
+            for (let j = 0; j < courseDetails.courseContent.length; j++) {
+                console.log("courseDetails.courseContent[i].subSection.length", courseDetails.courseContent[j])
+                totalSubSections += courseDetails.courseContent[j].subSection.length
             }
-           
+
 
             let completedSubSections = enrolledCourses.courseProgress[i].completedVideos.length
 
-            const completedSubSectionPercentage = Math.floor((completedSubSections/totalSubSections) * 100)
-            console.log("completedSubSectionPercentage" , completedSubSectionPercentage )
-            console.log("completedSubSections" , completedSubSections)
+            const completedSubSectionPercentage = Math.floor((completedSubSections / totalSubSections) * 100)
+            console.log("completedSubSectionPercentage", completedSubSectionPercentage)
+            console.log("completedSubSections", completedSubSections)
             console.log("totalSubSections", totalSubSections)
 
 
@@ -231,38 +232,49 @@ exports.getEnrolledCourses = async (req, res) =>{
         }
 
         // console.log(enrolledCourses)
+
+        // let totalDurationInSeconds = 0;
+        // enrolledCourses.courseContent.forEach((content) => {
+        //     content.subSection.forEach((subSection) => {
+        //         const timeDurationInSeconds = parseInt(subSection.timeDuration);
+        //         totalDurationInSeconds += timeDurationInSeconds;
+        //     });
+        // });
+
+        // console.log(enrolledCourses)
         return res.status(200).json({
-            success : true,
-            message : "Courses in which user is enrolled were found",
-            data : {
-                enrolledCourses : enrolledCourses.courses,
+            success: true,
+            message: "Courses in which user is enrolled were found",
+            data: {
+                enrolledCourses: enrolledCourses.courses,
+                // totalDurationInSeconds: totalDurationInSeconds,
                 // completedSubSectionPercentage : completedSubSectionPercentage
             }
 
         })
-    }   catch(e){
+    } catch (e) {
         console.error(e)
         return res.status(500).json({
-            success : false,
-            message : "Something wen wrong while fetching the ccourse enrolled for the user"
+            success: false,
+            message: "Something wen wrong while fetching the ccourse enrolled for the user"
         })
     }
 }
 
-    
-exports.instructorDashboard = async(req, res ) => {
+
+exports.instructorDashboard = async (req, res) => {
 
     try {
-        const courseDetails = await Course.find({instructor : req.user.id})
+        const courseDetails = await Course.find({ instructor: req.user.id })
 
         const courseData = courseDetails.map(course => {
             const totalStudents = course.studentsEnrolled.length
-            const totalIncome = totalStudents*course.price
+            const totalIncome = totalStudents * course.price
 
             const courseDataWithStats = {
-                _id : course._id,
-                courseName : course.courseName,
-                courseDescription : course.courseDescription,
+                _id: course._id,
+                courseName: course.courseName,
+                courseDescription: course.courseDescription,
                 totalStudents,
                 totalIncome
             }
@@ -271,19 +283,19 @@ exports.instructorDashboard = async(req, res ) => {
         })
 
         return res.status(200).json({
-            success : true,
-            message : "Course data with stats fetched",
-            courses : courseData
+            success: true,
+            message: "Course data with stats fetched",
+            courses: courseData
         })
 
-        
+
 
 
 
     } catch (e) {
         return res.status(500).json({
-            success : false,
-            message : "SOmething went wrong while fetching instructor dashboard details"
+            success: false,
+            message: "SOmething went wrong while fetching instructor dashboard details"
         })
     }
 }

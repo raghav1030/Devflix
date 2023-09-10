@@ -62,8 +62,6 @@ const SignupForm = () => {
             ...formData, accountType
         }
 
-        console.log(formData)
-        console.log(signupData)
         dispatch(setSignupData(signupData))
 
 

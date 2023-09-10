@@ -21,7 +21,7 @@ exports.sendOTP = async (req, res) => {
     const checkUserExistence = await User.findOne({ email });
 
     if (checkUserExistence) {
-      return res.status(401).jso({
+      return res.status(401).json({
         success: false,
         message: "User already exists",
       });

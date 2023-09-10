@@ -34,12 +34,13 @@ const CourseBuilderForm = () => {
   const [loading, setLoading] = useState(false);
   const { token } = useSelector((state) => state.auth);
 
-  console.log("Printing course", course);
 
   function cancelEditSectionName() {
     setEditSectionName(false);
     setValue("sectionName", "");
   }
+
+  console.log(course)
 
   function goBack() {
     dispatch(setStep(1));
@@ -61,13 +62,6 @@ const CourseBuilderForm = () => {
       }
     }
 
-    // for(const section in course.courseContent){
-
-    //     if(section.subSection.length === 0){
-    //         toast.error("Please Add Atleast one Sub Section")
-    //         return
-    //     }
-    // }
 
     dispatch(setStep(3));
   }
@@ -79,7 +73,6 @@ const CourseBuilderForm = () => {
 
     if (editSectionName) {
       try {
-        console.log("data for edit Section Name on submit", data);
         result = await updateSection(
           {
             sectionId: editSectionName,
@@ -89,7 +82,6 @@ const CourseBuilderForm = () => {
           token
         );
 
-        console.log("section updated", result);
       } catch (e) {
         console.error(e);
       }
@@ -102,7 +94,6 @@ const CourseBuilderForm = () => {
           },
           token
         );
-        console.log("section created");
       } catch (e) {
         console.error(e);
       }
@@ -127,62 +118,9 @@ const CourseBuilderForm = () => {
     setValue("sectionName", sectionName);
   }
 
+  console.log(course.courseContent    )
   return (
-    // <div>
-    //     <h1>CourseBuilderForm</h1>
-
-    //     <form action="submit" onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-10'>
-
-    //         <label >
-    //             <p>Section Name</p>
-    //             <input type="text" name='sectionName' {...register("sectionName" , {
-    //                 required : true,
-    //             })}
-    //             className='w-full'/>
-
-    //             {errors.sectionName && <p className='text-red-500'>This field is required</p>}
-    //         </label>
-
-    //         <div className='flex items-center  gap-16' >
-    //             <IconBtn
-    //             text={editSectionName ? 'Edit Section Name' : "Create Section"}
-    //             type={'submit'}
-    //             outline={true}
-    //             customClassName={'text-yellow-200 '}
-    //             >
-
-    //                 <BiAddToQueue className='text-xl'/>
-
-    //             </IconBtn>
-
-    //             {
-    //                 editSectionName && (
-    //                     <button
-    //                     type={'button'}
-    //                     onClick={cancelEditSectionName}
-    //                     className='text-richblack-300 underline text-sm  '>
-    //                         Cancel Edit
-    //                     </button>
-    //                 )
-    //             }
-    //         </div>
-
-    //     </form>
-
-    //     {
-    //         course.courseContent.length  > 0 && (
-    //             <NestedView handleChangeEditSectionName={handleChangeEditSectionName} />
-    //         )
-
-    //     }
-
-    //         <div className='flex gap-6 mt-4 justify-end' >
-    //             <button onClick={goBack} className='cursor-pointer flex items-center rounded-md  ' >Back</button>
-    //             <IconBtn text={"Next"} onClick={goToNext}  ><BiArrowToRight></BiArrowToRight></IconBtn>
-
-    //         </div>
-
-    // </div>
+    
 
     <div className="space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6">
       <p className="text-2xl font-semibold text-richblack-5">Course Builder</p>

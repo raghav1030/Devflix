@@ -21,12 +21,6 @@ const VideoDetails = () => {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
 
-  console.log(
-    "courseSectionData, courseEntireData , completedLectures",
-    courseSectionData,
-    courseEntireData,
-    completedLectures
-  );
 
   const setVideoSpecificDetails = () => {
     if (!courseSectionData.length) return;
@@ -49,8 +43,6 @@ const VideoDetails = () => {
   };
 
   useEffect(() => {
-    console.log("render 3");
-    console.log("completedLectures", completedLectures);
     setVideoSpecificDetails();
   }, [courseSectionData, courseEntireData, location.pathname]);
 
@@ -63,10 +55,8 @@ const VideoDetails = () => {
     ]?.subSection?.findIndex((data) => data._id === subSectionId);
 
     if (currentSectionIndex === 0 && currentSubSectionIndex === 0) {
-      console.log("First video true");
       return true;
     } else {
-      console.log("First video false");
 
       return false;
     }
@@ -103,12 +93,6 @@ const VideoDetails = () => {
       currentSectionIndex
     ]?.subSection?.findIndex((data) => data._id === subSectionId);
 
-    console.log(
-      "currentSectionIndex",
-      currentSectionIndex,
-      "currentSubSectionIndex",
-      currentSubSectionIndex
-    );
     if (currentSubSectionIndex === noOfSubSections - 1) {
       const newSectionIndex = currentSectionIndex + 1;
       const newSectionId = courseSectionData?.[newSectionIndex]?._id;
@@ -117,12 +101,6 @@ const VideoDetails = () => {
       const newSubSectionId =
         courseSectionData?.[newSectionIndex]?.subSection?.[newSubSectionIndex]
           ._id;
-      console.log(
-        "newSectionId",
-        newSectionIndex,
-        "newSubSectionIndex",
-        newSubSectionIndex
-      );
 
       navigate(
         `/view-course/${courseId}/section/${newSectionId}/sub-section/${newSubSectionId}`
@@ -132,7 +110,6 @@ const VideoDetails = () => {
         courseSectionData?.[currentSectionIndex]?.subSection?.[
           currentSubSectionIndex + 1
         ]._id;
-      console.log("newSubSectionIndex", newSubSectionId);
 
       navigate(
         `/view-course/${courseId}/section/${sectionId}/sub-section/${newSubSectionId}`
@@ -150,7 +127,6 @@ const VideoDetails = () => {
 
     if (currentSubSectionIndex === 0) {
       const newSectionIndex = currentSectionIndex - 1;
-      console.log(courseSectionData[newSectionIndex]);
       const newSectionId = courseSectionData?.[newSectionIndex]._id;
 
       const noOfSubSectionsOfPrevSection =
@@ -181,7 +157,6 @@ const VideoDetails = () => {
       { courseId: courseId, subSectionId: subSectionId },
       token
     );
-    console.log("result of mark as completed", result);
     if (result) dispatch(updateCompletedLectures(subSectionId));
 
     setLoading(false);

@@ -10,6 +10,7 @@ import {
   setTotalNoOfLectures,
   updateCompletedLectures,
 } from "../../../../redux/slices/viewCourseSlice";
+import convertSecondsToDuration from "../../../../utils/convertSecondsIntoDuration";
 
 const EnrolledCourses = () => {
   const { token } = useSelector((state) => state.auth);
@@ -23,7 +24,6 @@ const EnrolledCourses = () => {
   const getEnrolledCourses = async () => {
     try {
       const response = await getUserEnrolledCourses(token);
-      console.log(response);
 
       setEnrolledCourses(response);
 
@@ -32,65 +32,31 @@ const EnrolledCourses = () => {
       dispatch(setCompletedLectures([]));
       dispatch(setTotalNoOfLectures(0));
     } catch (error) {
-      console.log("Unable to Fetch Enrolled Courses");
     }
   };
 
   useEffect(() => {
     getEnrolledCourses();
+    console.log(enrolledCourses)
   }, []);
 
-  // console.log(enrolledCourses)
+
+  function calculateTotalDuration(course){
+    let totalDurationInSeconds = 0;
+    course.courseContent.forEach((content) => {
+        content.subSection.forEach((subSection) => {
+            const timeDurationInSeconds = parseInt(subSection.timeDuration);
+            totalDurationInSeconds += timeDurationInSeconds;
+        });
+    });
+
+    return convertSecondsToDuration(totalDurationInSeconds)
+
+
+  }
 
   return (
-    // <div className='text-white'>
-
-    //     <div>Enrolled Courses</div>
-    //     {
-    //         !enrolledCourses ? (<div>
-    //             Loading...
-    //         </div>)
-    //         : !enrolledCourses.length ? (<p>You have not enrolled in any course yet</p>)
-    //         : (
-    //             <div>
-    //                 <div>
-    //                     <p>Course Name</p>
-    //                     <p>Durations</p>
-    //                     <p>Progress</p>
-    //                 </div>
-    //                 {/* Cards shure hote h ab */}
-    //                 {
-    //                     enrolledCourses.map((course,index)=> (
-    //                         <div key={index} >
-    //                             <div onClick={()=> navigate(`/view-course/${course?._id}/section/${course?.courseContent?.[0]?._id}/sub-section/${course?.courseContent?.[0]?.subSection?.[0]?._id}`
-    //                             )}>
-    //                                 <img  src={course.thumbnail}/>
-    //                                 <div>
-    //                                     <p>{course.courseName}</p>
-    //                                     <p>{course.courseDescription}</p>
-    //                                 </div>
-    //                             </div>
-
-    //                             <div>
-    //                                 {course?.totalDuration}
-    //                             </div>
-
-    //                             <div>
-    //                                 <p>Progress: {course.courseProgressPercentage || 0}% of {course.courseName}</p>
-    //                                 <ProgressBar
-    //                                     completed={course.courseProgressPercentage || 0}
-    //                                     height='8px'
-    //                                     isLabelVisible={false}
-    //                                     />
-    //                             </div>
-    //                         </div>
-    //                     ))
-    //                 }
-    //             </div>
-    //         )
-    //     }
-
-    // </div>
+   
 
     <>
       <div className="text-3xl text-richblack-50">Enrolled Courses</div>
@@ -141,7 +107,7 @@ const EnrolledCourses = () => {
                   </p>
                 </div>
               </div>
-              <div className="w-1/4 px-2 py-3">{course?.totalDuration}</div>
+              <div className="w-1/4 px-2 py-3">{calculateTotalDuration(course)}</div>
               <div className="flex w-1/5 flex-col gap-2 px-2 py-3">
                 <p>Progress: {course.courseProgressPercentage || 0}%</p>
                 <ProgressBar

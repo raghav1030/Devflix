@@ -18,7 +18,6 @@ const EditCourse = () => {
       setLoading(true);
 
       const result = await getFullDetailsOfCourse(courseId, token);
-      console.log("result", result);
 
       if (result) {
         dispatch(setCourse(result.courseDetails));

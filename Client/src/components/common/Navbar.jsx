@@ -34,11 +34,8 @@ const Navbar = () => {
     setLoading(true);
 
     try {
-      console.log("Category api ", categories.CATEGORIES_API);
 
       const result = await apiConnector("get", categories.CATEGORIES_API);
-      console.log("Printing sublinks data : ", result);
-      console.log("Category api result", result.data);
       setSubLinks(result.data.data);
     } catch (e) {
       console.log("Something went wrong while fetching API");
@@ -48,7 +45,6 @@ const Navbar = () => {
     setLoading(false);
   }
 
-  console.log(subLinks);
 
   useEffect(() => {
     fetchApi();
@@ -96,8 +92,10 @@ const Navbar = () => {
                                 to={`/catalog/${subLink.name}`}
                                 className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50  transition-colors duration-200"
                                 key={i}
-                              >
-                                <p className="capitalize">{subLink.name}</p>
+                              >{
+                                subLink.name &&
+                                <p className="capitalize">{subLink.name.split("-").join(" ")}</p>
+                              }
                               </NavLink>
                             ))}
                           </>

@@ -21,7 +21,6 @@ const CoursesTable = ({courses , setCourses}) => {
     const  {token} = useSelector(state => state.auth)
     const dispatch = useDispatch()
     const [confirmationModal, setConfirmationModal] = useState(null)
-    // console.log(confirmationModal)
     const navigate = useNavigate()
     const TRUNCATE_LENGTH = 30
 
@@ -45,35 +44,20 @@ const CoursesTable = ({courses , setCourses}) => {
         setLoading(false)
     }
 
-    // async function handleCourseEdit(courseId){
-    //   setLoading(true)
-
-    //   try {
-    //     const result = await fetchCourseDetails(token)
-    //     console.log(result)
-    //   } catch (e) {
-    //     toast.error("Can't fetch the course Details")
-    //   }
-    // }
-
+    
     function calculateCourseDuration(course){
-      // console.log(course)
       let totalDuration = 0
       course?.courseContent?.forEach(section => {
-        // console.log(section)
         section?.subSection?.forEach(subSection => {
-          // console.log(subSection?.timeDuration)
           totalDuration += Math.round(Math.floor(subSection?.timeDuration))
         })      
       })
 
       totalDuration = convertSecondsToDuration(totalDuration)
-      // console.log(totalDuration)
 
       return totalDuration
     }
 
-    // console.log(courses)
 
   return (
     <>

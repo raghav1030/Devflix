@@ -226,7 +226,7 @@ exports.getCourseDetails = async (req, res) => {
   }
 };
 
-exports.getPublishedAllCourses = async (req, res) => {
+exports.  getPublishedAllCourses = async (req, res) => {
   try {
     const allCourses = await Course.find(
       { status: "Published" },
@@ -257,97 +257,6 @@ exports.getPublishedAllCourses = async (req, res) => {
   }
 };
 
-// exports.updateCourseDetails = async (req, res) => {
-//   try {
-//     const {courseId} = req.body;
-
-//     const updates = req.body
-
-//     // const thumbnail = req.files.thumbnailImage
-
-//     // const { thumbnail } = req.files;
-//     // const arr = [courseName, courseDescription, whatYouWillLearn, price, category, tag, instructions , status]
-
-//     let courseDetails = await Course.findById(courseId);
-
-//     // if (courseName !== (null || undefined)){
-//     //   courseDetails.courseName = courseName;
-//     // }
-//     // if (courseDescription !== (null || undefined))
-//     // {
-//     //   courseDetails.courseDescription = courseDescription;
-//     // }
-//     // if (whatYouWillLearn !== (null || undefined)){
-//     //   courseDetails.whatYouWillLearn = whatYouWillLearn;
-//     // }
-//     // if (price !== (null || undefined)){
-//     //   courseDetails.price = price;
-
-//     // }
-//     // if (category !== (null || undefined)){
-
-//     //   courseDetails.category = category;
-//     // }
-//     // if (tag !== (null || undefined)){
-
-//     //   courseDetails.tag = tag;
-//     // }
-
-//     // if (instructions !== (null || undefined)){
-
-//     //   courseDetails.instructions = instructions;
-//     // }
-//     // if (status !== (null || undefined)){
-
-//     //   courseDetails.status = status;
-//     // }
-
-//     for([key] in updates){
-//       if(updates.hasOwnProperty(key)){
-//         if(key === "tag" || key === 'instruction' ){
-//           courseDetails[key] = JSON.parse(updates[key])
-//         }
-//         else{
-//           courseDetails[key] = updates[key]
-
-//         }
-//       }
-//     }
-
-//     if (req.files) {
-//       console.log("thumbnail update")
-//       const thumbnail = req.files.thumbnailImage
-//       const thumbnailImage = await uploadImageToCloudinary(
-//         thumbnail,
-//         process.env.FOLDER_NAME
-//       )
-//       courseDetails.thumbnail = thumbnailImage.secure_url
-//     }
-
-//     // if (thumbnail !== (null || undefined)) {
-//     //   const uploadThumbnail = await uploadImageToCloudinary(
-//     //     thumbnail,
-//     //     process.env.MEDIA_FOLDER
-//     //   );
-//     //   courseDetails.thumbnail = uploadThumbnail.secure_url;
-//     // }
-
-//     await courseDetails.save();
-//     console.log(courseDetails);
-
-//     return res.status(200).json({
-//       success: true,
-//       message: "Course details updated",
-//       courseDetails: courseDetails,
-//     });
-//   } catch (e) {
-//     console.error(e);
-//     return res.status(500).json({
-//       success: false,
-//       message: "Something went wrong while updating the course details",
-//     });
-//   }
-// };
 
 exports.updateCourseDetails = async (req, res) => {
   try {

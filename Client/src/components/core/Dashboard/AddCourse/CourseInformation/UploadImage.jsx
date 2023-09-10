@@ -13,9 +13,6 @@ const UploadImage = ({register , setValue, getValues, name, label, placeholder, 
             setThumbnail(file)
             previewFile(file)
 
-            console.log(file)
-            console.log("watch(name)" , watch(name))
-
 
         }
     }
@@ -45,7 +42,6 @@ const UploadImage = ({register , setValue, getValues, name, label, placeholder, 
             setValue(name, thumbnail)
             previewFile(thumbnail)
         }
-        console.log('watch(tag) from useEffect' , watch(name))
     } , [thumbnail])
     
 

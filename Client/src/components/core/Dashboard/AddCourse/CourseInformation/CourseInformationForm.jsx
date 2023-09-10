@@ -62,16 +62,7 @@ const CourseInformationForm = ({ callFromEditCourse = false, editCourse }) => {
   }
 
   useEffect(() => {
-    // console.log(course.courseDescription)
-    console.log(editCourse);
-    console.log(course);
-    // if(callFromEditCourse){
-    //   console.log("Inside  callFromEditCourse flag changer")
-    //   dispatch(setEditCourse(false))
-    //   dispatch(setCourse(null))
-    // }
     if (editCourse) {
-      // console.log("Into edit Course ");
       setValue("courseDescription", course.courseDescription);
       setValue("tag", course.tag);
       setValue("price", course.price);
@@ -83,13 +74,10 @@ const CourseInformationForm = ({ callFromEditCourse = false, editCourse }) => {
     }
 
     getCourseCategoriesDetails();
-    console.log("course", course);
   }, [editCourse]);
 
   function isFormUpdated() {
     const currentValue = getValues();
-    // console.log(currentValue);
-    console.log(course);
 
     if (
       currentValue.courseName !== course.courseName ||
@@ -101,25 +89,20 @@ const CourseInformationForm = ({ callFromEditCourse = false, editCourse }) => {
       currentValue.thumbnail !== course.thumbnail ||
       currentValue.tag.toString() !== course.tag.toString()
     ) {
-      console.log("Form is updated");
       return true;
     } else {
-      console.log("Form is not updated");
 
       return false;
     }
   }
 
   const submitForm = async (data) => {
-    console.log(data);
 
     if (editCourse) {
       if (isFormUpdated()) {
         const currentValue = getValues();
         const formData = new FormData();
 
-        console.log(currentValue);
-        console.log(course);
 
         formData.append("courseId", course._id);
 
@@ -140,7 +123,6 @@ const CourseInformationForm = ({ callFromEditCourse = false, editCourse }) => {
         }
         if (currentValue.category !== course.category._id) {
           formData.append("category", data.category._id);
-          console.log("Category Id appended", currentValue.category._id);
         }
         if (currentValue.thumbnail[0] !== course.thumbnail) {
           formData.append("thumbnail", data.thumbnail);
@@ -180,9 +162,8 @@ const CourseInformationForm = ({ callFromEditCourse = false, editCourse }) => {
     }
 
     const formData = new FormData();
-    console.log(data.thumbnail);
-    formData.append("courseId", course._id);
-
+    // formData.append("courseId", course._id);
+    console.log(data.thumbnail)
     formData.append("courseName", data.courseName);
     formData.append("courseDescription", data.courseDescription);
     formData.append("price", data.price);
@@ -194,20 +175,18 @@ const CourseInformationForm = ({ callFromEditCourse = false, editCourse }) => {
     formData.append("status", COURSE_STATUS.DRAFT);
 
     for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
+      console.log(key ," --> " , value)
     }
 
     try {
       setLoading(true);
 
       const result = await addCourseDetails(formData, token);
-      console.log("Printing Result", result);
       if (result) {
         dispatch(setCourse(result));
         dispatch(setStep(2));
         // dispatch(setAllCourses(result.course))
       }
-      console.log("Printing course", course);
     } catch (e) {
       console.error(e);
     }
@@ -328,12 +307,13 @@ const CourseInformationForm = ({ callFromEditCourse = false, editCourse }) => {
 
         {/* Course Thumbnail Image */}
         <Upload
-          name="thumbnailImage"
+          name="thumbnail"
           label="Course Thumbnail"
           register={register}
           setValue={setValue}
           errors={errors}
           editData={editCourse ? course?.thumbnail : null}
+          getValues={getValues}
         />
 
         {/* <ChipInput
@@ -399,173 +379,6 @@ const CourseInformationForm = ({ callFromEditCourse = false, editCourse }) => {
     </>
   );
 };
-// <form
 
-// onSubmit={handleSubmit(submitForm)}
-//   className="space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6"
-
-// >
-
-//         {/* <label >
-
-//             <p className="text-sm text-richblack-5"> Course Title <sup className="text-pink-200">*</sup> </p>
-//             <input type="text"
-//             {...register('courseName', {required : true})}
-//             placeholder='Enter Course Title '
-//             className="form-style w-full"
-//             />
-//             {
-//                 errors.courseName && <span>
-//                     Please Enter Course Title
-//                 </span>
-//             }
-//         </label> */}
-
-//     <div className="flex flex-col space-y-2">
-//     <label className="text-sm text-richblack-5" htmlFor="courseName">
-//       Course Title <sup className="text-pink-200">*</sup>
-//     </label>
-//     <input
-//       id="courseName"
-//       placeholder="Enter Course Title"
-//       {...register("courseName", { required: true })}
-//       className="form-style w-full"
-//     />
-//     {errors.courseTitle && (
-//       <span className="ml-2 text-xs tracking-wide text-pink-200">
-//         Course title is required
-//       </span>
-//     )}
-//   </div>
-
-//         <label>
-
-//             <p> ACourse Description <sup>*</sup> </p>
-//             <textarea
-//             {...register('description', {required : true})}
-//             placeholder='Enter Course Details '
-//             className='w-full min-h-[140px] '
-//             />
-//             {
-//                 errors.description && <span>
-//                     Please Enter Course Description
-//                 </span>
-//             }
-
-//         </label>
-
-//         <label>
-
-//             <p> Course Price <sup>*</sup> </p>
-//             <input type="number"
-//             {...register('price', {required : true})}
-//             placeholder='Enter Course Price '
-//             className='w-full  '
-//             />
-//             {
-//                 errors.price && <span>
-//                     Please Enter Course Title
-//                 </span>
-//             }
-//         </label>
-
-//         <label>
-
-//             <p> Course Category <sup>*</sup> </p>
-
-//             <select name="category" id="category" defaultValue='' {...register('category' , {required : true})}>
-//                 <option value="" disabled>Choose Course Category </option>
-
-//                 {
-//                     !loading &&  courseCategories.map((item , index) => (
-//                         <option value={item?._id} key={index}>
-//                             {item?.name}
-//                         </option>
-//                     ))
-//                 }
-
-//             </select>
-
-//             {
-//                     errors.category && (
-//                         <span>
-//                             Course category is reqired
-//                         </span>
-//                     )
-//             }
-
-//         </label>
-
-//         <label>
-
-//             <p> Course Benefits <sup>*</sup> </p>
-//             <textarea
-//             {...register('whatYouWillLearn', {required : true})}
-//             placeholder='Enter Course Benefits '
-//             className='w-full min-h-[140px]  '
-//             />
-//             {
-//                 errors.price && <span>
-//                     Please Enter Course Title
-//                 </span>
-//             }
-//         </label>
-
-//         <div>
-//             {
-//                 editCourse && (
-//                     <button onClick={() => dispatch(setStep(2))}
-//                     className='flex gap-2 text-richBlack-100 bg-richBlack-300' >
-//                         Continue Without Saving
-//                     </button>
-//                 )
-//             }
-
-//             <IconBtn
-//             text={editCourse ? "Next" : "Save Changes And Next"}
-//             type={'submit'}
-
-//             ></IconBtn>
-
-//         </div>
-
-// </form>
-
-{
-  /* <ChipInput 
-            label="Tags"
-            name='tag'
-            placeholder='Enter Tags'
-            errors={errors.tag}
-            setValue={setValue}
-            register={register}
-            getValues={getValues}
-            watch={watch}
-            tagArray={course.tag ? course.tag : null }
-            />
-
-            <Upload label="Thumbnail"  
-            name='thumbnail'
-            placeholder='Upload Thumbnail'
-            errors={errors}
-            setValue={setValue}
-            register={register}
-            getValues={getValues}
-            watch={watch}
-            thumbnail={course.thumbnail ? course.thumbnail : null}
-            />
-
-            <RequirementField 
-            label="Requirement/Instruction"
-            name='instructions'
-            placeholder='Enter The pre-requisites for the course'
-            errors={errors.tag}
-            setValue={setValue}
-            register={register}
-            getValues={getValues}
-            watch={watch}
-            instructionsArray={course.instructions ? course.instructions : null}
-            /> */
-}
 
 export default CourseInformationForm;

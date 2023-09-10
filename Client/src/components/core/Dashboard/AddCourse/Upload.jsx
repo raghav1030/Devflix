@@ -8,6 +8,7 @@ import { Player } from "video-react";
 
 export default function Upload({
   name,
+  getValues,
   label,
   register,
   setValue,
@@ -40,7 +41,6 @@ export default function Upload({
   });
 
   const previewFile = (file) => {
-    // console.log(file)
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
@@ -54,7 +54,9 @@ export default function Upload({
   }, [register]);
 
   useEffect(() => {
+    console.log("Selected file" , selectedFile)
     setValue(name, selectedFile);
+    console.log(getValues(name));
     // eslint-disable-next-line react-hooks/exhaustive-deps
     if (editData) {
       setValue(name, editData);

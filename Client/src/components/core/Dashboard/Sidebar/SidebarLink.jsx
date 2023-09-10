@@ -21,8 +21,6 @@ const SidebarLink = ({ link, iconName }) => {
       to={link?.path}
       onClick={() => {
         // dispatch(setEditCourse(false))
-        console.log("editCourse", editCourse, "course", course);
-        console.log("SetEditCourse set to false");
       }}
       className={`${
         matchRoutes(link?.path) ? "bg-yellow-800" : "bg-opacity-0"

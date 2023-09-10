@@ -18,11 +18,9 @@ const RequirementField = ({
 
   const addRequirement = (e) => {
     if (requirement.trim() !== "") {
-      console.log("Printing List Before adding", requirementList);
 
       setRequirementList([...requirementList, requirement]);
       // setRequirement('')
-      console.log("requirementList after adding", requirementList);
       setRequirement("");
     }
   };
@@ -51,13 +49,13 @@ const RequirementField = ({
   }, []);
 
   useEffect(() => {
-    setValue(name, requirementList);
 
+    setValue(name, requirementList);
+    console.log(requirementList)
     if (editCourse) {
-      console.log(editData);
       setRequirementList(editData);
     }
-  }, []);
+  }, [requirementList]);
 
   return (
     <div className="flex flex-col space-y-2">

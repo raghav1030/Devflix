@@ -18,11 +18,9 @@ const MyCourses = () => {
     setLoading(true);
     try {
       const result = await fetchInstructorCourses(token);
-      console.log(result);
       if (result) {
         setCourses(result);
       }
-      console.log("Control Reached till end of api call");
     } catch (e) {
       console.error(e);
     }
@@ -30,13 +28,10 @@ const MyCourses = () => {
     setLoading(false);
   };
 
-  // useEffect(()=>{
-  // },[])
 
   useEffect(() => {
     fetchCourses();
     dispatch(setStep(1));
-    console.log("Hello fromMy course");
   }, []);
 
   return (

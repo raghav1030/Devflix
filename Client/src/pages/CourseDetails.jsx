@@ -31,7 +31,6 @@ const CourseDetails = () => {
         const getCourseFullDetails = async() => {
             try{
                 const result = await fetchCourseDetails(courseId);
-                console.log("Printing CourseData-> " , result);
                 setCourseData(result);
             }
             catch(error) {
@@ -117,8 +116,6 @@ const CourseDetails = () => {
         createdAt,
     } = courseData.data?.courseDetails;
 
-    console.log("courseData" , courseData)
-    console.log(avgReviewCount)
 
     return (
     // <div className='flex flex-col  text-white'>
