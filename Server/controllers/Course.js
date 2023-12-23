@@ -215,7 +215,7 @@ exports.getCourseDetails = async (req, res) => {
   }
 };
 
-exports.  getPublishedAllCourses = async (req, res) => {
+exports.getPublishedAllCourses = async (req, res) => {
   try {
     const allCourses = await Course.find(
       { status: "Published" },
