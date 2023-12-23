@@ -24,18 +24,7 @@ exports.createCourse = async (req, res) => {
     let { status } = req.body;
     const { thumbnail } = req.files;
 
-    console.log(
-      courseName,
-      courseDescription,
-      whatYouWillLearn,
-      price,
-      category,
-      tag,
-      instructions,
-      status,
-      thumbnail
-    );
-    console.log();
+    
 
     if (
       !courseName ||
